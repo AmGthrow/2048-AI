@@ -21,6 +21,10 @@ def play():
         board.move_left()
         board.move_down()
         board.move_right()
+        
+        # it takes a while for the HTML to update with the board, so I need to wait a bit. Otherwise, get_tiles() 
+        # gives a wrong board, one where the move/s might not have been done yet
+        time.sleep(0.1)
         print(board.get_tiles())
         try:
             resetGame = browser.find_element_by_class_name('retry-button')
