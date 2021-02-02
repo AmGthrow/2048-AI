@@ -17,7 +17,7 @@ class BoardDriver:
         """Scrapes the webpage for info on the board's tiles and generates a 4x4 matrix representation
 
         Returns:
-            tile_info: a 4x4 nd.ndarray matrix with all the board's current tiles
+            tile_info: a 4x4 np.ndarray matrix with all the board's current tiles
         """
         soup = BeautifulSoup(self.browser.page_source, 'lxml')
 
@@ -45,6 +45,35 @@ class BoardDriver:
             # So I need to get the biggest value that occupies that tile (i.e. the 8 tile in this example)
             if val > tile_info[y][x]:
                 tile_info[y][x] = val
+
+        return tile_info
+
+    def get_new_tiles(self) -> [(int, int, int)]:
+        """Scrapes the webpage for info on the board's  most recently-added tiles and returns their position and value
+
+        Returns:
+            tile_info: a list of tuples [(x, y, val)] representing each new tile in the board
+        """
+        soup = BeautifulSoup(self.browser.page_source, 'lxml')
+
+        # everything is the same as get_tiles() except now I only care about the tile with the .tile-new class
+        tiles = [tile['class'] for tile in soup.select('.tile-new')]
+        
+        # matrix representing the 4x4 grid from the board
+        tile_info = []
+
+        for tile in tiles:
+
+            # extracts the value and position of every tile in tiles
+            val = int(re.match(r'tile-(\d+)', tile[1]).group(1))
+
+            # I don't need to use a regex like in val since the board is only 4x4, so I'm sure I'll never have 2 digits for x or y
+            # need to use y-1 and x-1 since tile_info is 0-indexed but the actual xpos, ypos we scraped are 1-indexed
+            x, y = int(tile[2][-3]) - 1, int(tile[2][-1]) - 1
+
+            # the webpage actually keeps old tiles when merging, e.g. when you create a new 8 tile at (1,1), there are still two 4 tilse at (1,1)
+            # So I need to get the biggest value that occupies that tile (i.e. the 8 tile in this example)
+            tile_info.append((x,y,val))
 
         return tile_info
 
