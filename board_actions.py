@@ -14,8 +14,10 @@ class BoardDriver:
         self.html = browser.find_element_by_tag_name('html')
 
     def get_tiles(self) -> np.ndarray:
-        """
-        Scrapes the webpage for raw data on the state of the board and generates a 4x4 matrix with tiles in the correct place
+        """Scrapes the webpage for info on the board's tiles and generates a 4x4 matrix representation
+
+        Returns:
+            tile_info: a 4x4 nd.ndarray matrix with all the board's current tiles
         """
         soup = BeautifulSoup(self.browser.page_source, 'lxml')
 
