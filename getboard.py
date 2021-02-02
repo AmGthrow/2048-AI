@@ -27,7 +27,7 @@ def get_tiles(browser):
 
         # I don't need to use a regex like in val since the board is only 4x4, so I'm sure I'll never have 2 digits for x or y
         # need to use y-1 and x-1 since tile_info is 0-indexed but the actual xpos, ypos we scraped are 1-indexed
-        x, y = int(tile[2][-3] - 1), int(tile[2][-1] - 1)
+        x, y = int(tile[2][-3]) - 1, int(tile[2][-1]) - 1
 
         if val > tile_info[y][x]:
             tile_info[y][x] = val
