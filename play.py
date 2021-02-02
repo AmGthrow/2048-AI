@@ -4,7 +4,6 @@ Instantiates a new WebDriver for selenium to control and sends keystrokes to pla
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-import getboard
 import time
 from board_actions import BoardDriver
 
