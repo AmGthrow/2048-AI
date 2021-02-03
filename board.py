@@ -11,5 +11,14 @@ class Board:
     def new_tile(self, x, y, val):
         self.board[y][x] = val
 
+    def move_up(self):
+        pass
+    def move_down(self):
+        pass
+    def move_left(self):
+        pass
+    def move_right(self):
+        pass
+
 if __name__ == "__main__":
     board = Board()
