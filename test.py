@@ -5,6 +5,8 @@ import numpy as np
 class TestBoard(unittest.TestCase):
 
     def test_right(self):
+        """Test to make sure move_right() both shifts all elements and merges similar values
+        """
         start = np.array([
         [2,0,0,0],
         [2,0,0,0],
