@@ -39,5 +39,24 @@ class Board:
                     # more like a "bubble sort" where 0s get bubbled up
                     self.board[row][move_to], self.board[row][col] self.board[row][col], self.board[row][move_to]
                     move_to += 1
+
+    def merge_left(self):
+        """Merges similar tiles to the left if they're the same value
+        """
+        for row in range(self.rows):
+            to_merge = 0    # tracks which tile should be "merged into"
+            # skip the 1st column since it's what's being merged into
+            for col in range(1, self.cols):
+                # skip to the next one if current is 0
+                if self.board[row][col] == 0:
+                    continue
+                # merge if current one matches 'to_merge'
+                elif self.board[row][col] == self.board[row][to_merge]:
+                    self.board[row][to_merge] *= 2
+                    self.board[row][col] = 0
+                # move 'to_merge' to the current tile if it wasn't a 0
+                to_merge = col
+
+
 if __name__ == "__main__":
     board = Board()
