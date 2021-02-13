@@ -22,7 +22,13 @@ class Board:
         pass
 
     def move_left(self):
-        pass
+        old = self.board
+        self.merge_left()
+        self.shift_left()
+        # Check if the move we made actually changed anything
+        if old.all() == self.board.all():
+            return False
+        return True
 
     def move_right(self):
         pass
