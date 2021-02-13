@@ -15,14 +15,17 @@ class Board:
         self.rows = len(self.board)
         self.cols = len(self.board[0])
 
-    def reset_board(self):
-        """Sets everything on the board to 0 and resets the score to 0
+    def reset_board(self, new_board=np.zeros((2, 2), dtype=int)):
+        """Sets everything on the board back to 0
         """
         self.board = np.zeros((self.rows, self.cols), dtype=int)
-        self.score = 0
+
+    def reset_score(self, score=0):
+        self.score = score
 
     def show_board(self):
         print(self.board)
+        print(f"Score: {self.score}")
 
     def new_tile(self, y, x, val):
         """Replaces the value of the specified tile in the board
