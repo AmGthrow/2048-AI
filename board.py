@@ -23,62 +23,59 @@ class Board:
         """Shoves all tiles upward and merges similar tiles where applicable
 
         Returns:
-            bool: Whether or not the move actually changed the board
+            int: the score we get from moving up
         """
         # Rotate the matrix so that "up" is at the left
         self.board = np.rot90(self.board, 1)
         # perform a regular move_left()
-        is_valid = self.move_left()
+        score = self.move_left()
         # reset the board to its original orientation
         self.board = np.rot90(self.board, -1)
         # return whether or not the move actually changed anything
-        return is_valid
+        return score
 
     def move_down(self):
         """Shoves all tiles downward and merges similar tiles where applicable
 
         Returns:
-            bool: Whether or not the move actually changed the board
+            int: the score we get from moving down
         """
         # Rotate the matrix so that "down" is at the left
         self.board = np.rot90(self.board, -1)
         # perform a regular move_left()
-        is_valid = self.move_left()
+        score = self.move_left()
         # reset the board to its original orientation
         self.board = np.rot90(self.board, 1)
         # return whether or not the move actually changed anything
-        return is_valid
+        return score
 
     def move_right(self):
         """Shoves all tiles to the right and merges similar tiles where applicable
 
         Returns:
-            bool: Whether or not the move actually changed the board
+            int: the score we get from moving right
         """
         # Rotate the matrix so that "right" is at the left
         self.board = np.fliplr(self.board)
         # perform a regular move_left()
-        is_valid = self.move_left()
+        score = self.move_left()
         # reset the board to its original orientation
         self.board = np.fliplr(self.board)
         # return whether or not the move actually changed anything
-        return is_valid
+        return score
 
     def move_left(self):
         """Shoves all tiles to the left and merges similar tiles where applicable
 
         Returns:
-            bool: Whether or not the move actually changed the board
+            int: the score we get from moving left
         """
         old = self.board
-        # combine tiles that would be combined after the left swipe
-        self.merge_left()
+        # combine tiles that would be combined after the left swipe and record the score
+        score = self.merge_left()
         # push every tile to the left
         self.shift_left()
-        # Check if the move we made actually changed anything
-        if old.all() == self.board.all():
-            return False
-        return True
+        return score
 
     def shift_left(self):
         """Shifts every tile as far left as it could go without merging anything
@@ -95,7 +92,11 @@ class Board:
 
     def merge_left(self):
         """Merges similar tiles to the left if they're the same value
+
+        Returns:
+            int: the score we get from performing the merge
         """
+        score = 0
         for row in range(self.rows):
             to_merge = 0    # tracks which tile should be "merged into"
             # skip the 1st column since it's what's being merged into
@@ -106,9 +107,11 @@ class Board:
                 # merge if current one matches 'to_merge'
                 elif self.board[row][col] == self.board[row][to_merge]:
                     self.board[row][to_merge] *= 2
+                    score += self.board[row][to_merge]
                     self.board[row][col] = 0
                 # move 'to_merge' to the current tile if it wasn't a 0
                 to_merge = col
+        return score
 
 
 if __name__ == "__main__":
