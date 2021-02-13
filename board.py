@@ -5,6 +5,9 @@ DEFAULT_COLS = 4
 
 
 class Board:
+    """Object representing a board you can play 2048 on
+    """
+
     def __init__(self, board=np.zeros((DEFAULT_ROWS, DEFAULT_COLS), dtype=int)):
         self.board = board
         self.rows = len(self.board)
@@ -17,22 +20,65 @@ class Board:
         self.board[y][x] = val
 
     def move_up(self):
-        pass
+        """Shoves all tiles upward and merges similar tiles where applicable
+
+        Returns:
+            bool: Whether or not the move actually changed the board
+        """
+        # Rotate the matrix so that "up" is at the left
+        self.board = np.rot90(self.board, 1)
+        # perform a regular move_left()
+        is_valid = self.move_left()
+        # reset the board to its original orientation
+        self.board = np.rot90(self.board, -1)
+        # return whether or not the move actually changed anything
+        return is_valid
 
     def move_down(self):
-        pass
+        """Shoves all tiles downward and merges similar tiles where applicable
+
+        Returns:
+            bool: Whether or not the move actually changed the board
+        """
+        # Rotate the matrix so that "down" is at the left
+        self.board = np.rot90(self.board, -1)
+        # perform a regular move_left()
+        is_valid = self.move_left()
+        # reset the board to its original orientation
+        self.board = np.rot90(self.board, 1)
+        # return whether or not the move actually changed anything
+        return is_valid
+
+    def move_right(self):
+        """Shoves all tiles to the right and merges similar tiles where applicable
+
+        Returns:
+            bool: Whether or not the move actually changed the board
+        """
+        # Rotate the matrix so that "right" is at the left
+        self.board = np.fliplr(self.board)
+        # perform a regular move_left()
+        is_valid = self.move_left()
+        # reset the board to its original orientation
+        self.board = np.fliplr(self.board)
+        # return whether or not the move actually changed anything
+        return is_valid
 
     def move_left(self):
+        """Shoves all tiles to the left and merges similar tiles where applicable
+
+        Returns:
+            bool: Whether or not the move actually changed the board
+        """
         old = self.board
+        # combine tiles that would be combined after the left swipe
         self.merge_left()
+        # push every tile to the left
         self.shift_left()
         # Check if the move we made actually changed anything
         if old.all() == self.board.all():
             return False
         return True
-
-    def move_right(self):
-        pass
 
     def shift_left(self):
         """Shifts every tile as far left as it could go without merging anything
