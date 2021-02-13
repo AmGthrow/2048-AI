@@ -11,6 +11,7 @@ class Board:
 
     def __init__(self, board=np.zeros((DEFAULT_ROWS, DEFAULT_COLS), dtype=int)):
         self.board = board
+        self.score = 0
         self.rows = len(self.board)
         self.cols = len(self.board[0])
 
@@ -128,9 +129,9 @@ class Board:
         """Merges similar tiles to the left if they're the same value
 
         Returns:
-            int: the score we get from performing the merge
+            int: the score we get from performing the merges
         """
-        score = 0
+        score_add = 0
         for row in range(self.rows):
             to_merge = 0    # tracks which tile should be "merged into"
             # skip the 1st column since it's what's being merged into
@@ -141,11 +142,13 @@ class Board:
                 # merge if current one matches 'to_merge'
                 elif self.board[row][col] == self.board[row][to_merge]:
                     self.board[row][to_merge] *= 2
-                    score += self.board[row][to_merge]
+                    score_add += self.board[row][to_merge]
                     self.board[row][col] = 0
                 # move 'to_merge' to the current tile if it wasn't a 0
                 to_merge = col
-        return score
+        # take the score we added from performing the merges and add them to the board's score
+        self.score += score_add
+        return score_add
 
 
 if __name__ == "__main__":
