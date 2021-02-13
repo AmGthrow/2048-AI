@@ -4,8 +4,8 @@ import numpy as np
 
 class TestBoard(unittest.TestCase):
 
-    def test_right(self):
-        """Test to make sure move_right() both shifts all elements and merges similar values
+    def test_left(self):
+        """Test to make sure move_left() both shifts all elements and merges similar values
         """
         start = np.array([
         [2,0,0,0],
@@ -21,9 +21,9 @@ class TestBoard(unittest.TestCase):
         [8,0,0,0]], 
         dtype=int)
 
-        right_board = Board(start)
-        right_board.move_right()
-        np.testing.assert_equal(right_board.board, end)
+        left_board = Board(start)
+        left_board.move_left()
+        np.testing.assert_equal(left_board.board, end)
 
 
 if __name__ == "__main__":
