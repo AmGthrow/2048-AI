@@ -1,10 +1,14 @@
 import numpy as np
 
+DEFAULT_ROWS = 4
+DEFAULT_COLS = 4
 
 class Board:
-    def __init__(self, board = np.zeros((4,4), dtype=int)):
+    def __init__(self, board=np.zeros((DEFAULT_ROWS, DEFAULT_COLS), dtype=int)):
         self.board = board
-    
+        self.rows = len(self.board)
+        self.cols = len(self.board[0])
+
     def show_board(self):
         print(self.board)
 
@@ -13,10 +17,13 @@ class Board:
 
     def move_up(self):
         pass
+
     def move_down(self):
         pass
+
     def move_left(self):
         pass
+
     def move_right(self):
         pass
 
