@@ -18,9 +18,22 @@ class Board:
         print(self.board)
 
     def new_tile(self, y, x, val = np.random.choice([2,4], p = [0.9, 0.1])):
+        """Replaces the value of the specified tile in the board
+
+        Args:
+            y (int): the row of the tile whose value is to be changed
+            x (int): the column of the tile whose value is to be changed
+            val (int, optional): The new value for the specified tile. Defaults to np.random.choice([2,4], p = [0.9, 0.1]).
+        """
         self.board[y][x] = val
         
     def spawn_random_tile(self):
+        """Spawns a new tile (either 2 or 4) in one of the tiles on the board which currently has 
+        a value of 0
+
+        Returns:
+            bool: Whether or not a new tile was spawned (i.e. whether or not there were any 0s left on the board)
+        """
         # Get an np.ndarray with the indices where self.board has 0s
         zeros = np.argwhere(self.board == 0)
         if len(zeros) == 0:
