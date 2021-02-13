@@ -23,7 +23,8 @@ class TestBoard(unittest.TestCase):
             dtype=int)
 
         left_board = Board(start)
-        left_board.move_left()
+        score = left_board.move_left()
+        self.assertEqual(score, 20)
         np.testing.assert_equal(left_board.board, end)
 
     def test_right(self):
@@ -42,7 +43,8 @@ class TestBoard(unittest.TestCase):
             dtype=int)
 
         right_board = Board(start)
-        right_board.move_right()
+        score = right_board.move_right()
+        self.assertEqual(score, 20)
         np.testing.assert_equal(right_board.board, end)
 
     def test_up(self):
@@ -61,7 +63,8 @@ class TestBoard(unittest.TestCase):
             dtype=int)
 
         up_board = Board(start)
-        up_board.move_up()
+        score = up_board.move_up()
+        self.assertEqual(score, 20)
         np.testing.assert_equal(up_board.board, end)
 
     def test_down(self):
@@ -80,7 +83,8 @@ class TestBoard(unittest.TestCase):
             dtype=int)
 
         down_board = Board(start)
-        down_board.move_down()
+        score = down_board.move_down()
+        self.assertEqual(score, 20)
         np.testing.assert_equal(down_board.board, end)
 
 
