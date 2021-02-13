@@ -27,6 +27,10 @@ class Board:
         print(self.board)
         print(f"Score: {self.score}")
 
+    def is_valid(self):
+        board_copy = Board(self.board)
+        return board_copy.move_up() or board_copy.move_down() or board_copy.move_left() or board_copy.move_right()
+
     def new_tile(self, y, x, val):
         """Replaces the value of the specified tile in the board
 
