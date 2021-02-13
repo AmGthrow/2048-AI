@@ -48,7 +48,7 @@ class Board:
         """Selects a random move (up, down, left, or right) and performs it on the board
 
         Returns:
-            score: the score we get after perfoming the move
+            bool: Whether or not the move actually changed anything on the board
         """
         moves = (self.move_up, self.move_down, self.move_left, self.move_right)
         selected_move = random.choice(moves)
@@ -58,59 +58,62 @@ class Board:
         """Shoves all tiles upward and merges similar tiles where applicable
 
         Returns:
-            int: the score we get from moving up
+            bool: Whether or not the move actually changed anything on the board
         """
         # Rotate the matrix so that "up" is at the left
         self.board = np.rot90(self.board, 1)
         # perform a regular move_left()
-        score = self.move_left()
+        is_valid = self.move_left()
         # reset the board to its original orientation
         self.board = np.rot90(self.board, -1)
         # return whether or not the move actually changed anything
-        return score
+        return is_valid
 
     def move_down(self):
         """Shoves all tiles downward and merges similar tiles where applicable
 
         Returns:
-            int: the score we get from moving down
+            bool: Whether or not the move actually changed anything on the board
         """
         # Rotate the matrix so that "down" is at the left
         self.board = np.rot90(self.board, -1)
         # perform a regular move_left()
-        score = self.move_left()
+        is_valid = self.move_left()
         # reset the board to its original orientation
         self.board = np.rot90(self.board, 1)
         # return whether or not the move actually changed anything
-        return score
+        return is_valid
 
     def move_right(self):
         """Shoves all tiles to the right and merges similar tiles where applicable
 
         Returns:
-            int: the score we get from moving right
+            bool: Whether or not the move actually changed anything on the board
         """
         # Rotate the matrix so that "right" is at the left
         self.board = np.fliplr(self.board)
         # perform a regular move_left()
-        score = self.move_left()
+        is_valid = self.move_left()
         # reset the board to its original orientation
         self.board = np.fliplr(self.board)
         # return whether or not the move actually changed anything
-        return score
+        return is_valid
 
     def move_left(self):
         """Shoves all tiles to the left and merges similar tiles where applicable
 
         Returns:
-            int: the score we get from moving left
+            bool: Whether or not the move actually changed anything on the board
         """
-        old = self.board
-        # combine tiles that would be combined after the left swipe and record the score
-        score = self.merge_left()
+        old = self.board.copy()
+        # combine tiles that would be combined after the left swipe
+        self.merge_left()
         # push every tile to the left
         self.shift_left()
-        return score
+        # if any of the tiles merged/moved, the move is valid
+        # otherwise, the move didn't change anything and the move is invalid
+        is_valid = (old != self.board).any()
+        return is_valid
 
     def shift_left(self):
         """Shifts every tile as far left as it could go without merging anything
