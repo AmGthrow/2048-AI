@@ -24,13 +24,13 @@ class Board:
     def show_board(self):
         print(self.board)
 
-    def new_tile(self, y, x, val=np.random.choice([2, 4], p=[0.9, 0.1])):
+    def new_tile(self, y, x, val):
         """Replaces the value of the specified tile in the board
 
         Args:
             y (int): the row of the tile whose value is to be changed
             x (int): the column of the tile whose value is to be changed
-            val (int, optional): The new value for the specified tile. Defaults to np.random.choice([2,4], p = [0.9, 0.1]).
+            val (int): The new value for the specified tile
         """
         self.board[y][x] = val
 
@@ -47,7 +47,7 @@ class Board:
             return False
         # pick a random index and record the x,y values
         y, x = random.choice(zeros)
-        self.new_tile(y, x)
+        self.new_tile(y, x, np.random.choice([2, 4], p=[0.9, 0.1]))
         return True
 
     def random_move(self):
