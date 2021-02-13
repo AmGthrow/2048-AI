@@ -15,6 +15,12 @@ class Board:
         self.rows = len(self.board)
         self.cols = len(self.board[0])
 
+    def reset_board(self):
+        """Sets everything on the board to 0 and resets the score to 0
+        """
+        self.board = np.zeros((self.rows, self.cols), dtype=int)
+        self.score = 0
+
     def show_board(self):
         print(self.board)
 
