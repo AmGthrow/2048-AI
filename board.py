@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 DEFAULT_ROWS = 4
 DEFAULT_COLS = 4
@@ -16,7 +17,7 @@ class Board:
     def show_board(self):
         print(self.board)
 
-    def new_tile(self, x, y, val):
+    def new_tile(self, y, x, val = np.random.choice([2,4], p = [0.9, 0.1])):
         self.board[y][x] = val
 
     def move_up(self):
