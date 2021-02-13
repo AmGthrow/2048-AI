@@ -23,9 +23,12 @@ class Board:
     def spawn_random_tile(self):
         # Get an np.ndarray with the indices where self.board has 0s
         zeros = np.argwhere(self.board == 0)
+        if len(zeros) == 0:
+            return False
         # pick a random index and record the x,y values
         y, x = random.choice(zeros)
         self.new_tile(y, x)
+        return True
 
     def move_up(self):
         """Shoves all tiles upward and merges similar tiles where applicable
