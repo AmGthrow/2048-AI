@@ -17,7 +17,7 @@ class Board:
     def show_board(self):
         print(self.board)
 
-    def new_tile(self, y, x, val = np.random.choice([2,4], p = [0.9, 0.1])):
+    def new_tile(self, y, x, val=np.random.choice([2, 4], p=[0.9, 0.1])):
         """Replaces the value of the specified tile in the board
 
         Args:
@@ -26,7 +26,7 @@ class Board:
             val (int, optional): The new value for the specified tile. Defaults to np.random.choice([2,4], p = [0.9, 0.1]).
         """
         self.board[y][x] = val
-        
+
     def spawn_random_tile(self):
         """Spawns a new tile (either 2 or 4) in one of the tiles on the board which currently has 
         a value of 0
@@ -42,6 +42,16 @@ class Board:
         y, x = random.choice(zeros)
         self.new_tile(y, x)
         return True
+
+    def random_move(self):
+        """Selects a random move (up, down, left, or right) and performs it on the board
+
+        Returns:
+            score: the score we get after perfoming the move
+        """
+        moves = (self.move_up, self.move_down, self.move_left, self.move_right)
+        selected_move = random.choice(moves)
+        return selected_move()
 
     def move_up(self):
         """Shoves all tiles upward and merges similar tiles where applicable
