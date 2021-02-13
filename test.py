@@ -189,6 +189,34 @@ class TestBoard(unittest.TestCase):
             # assert that the board is full after occupying the 8 available "slots" for a new tile
             self.assertFalse(board.spawn_random_tile())
 
+    def test_is_valid(self):
+        # Only up or left is valid
+        start = np.array([
+            [0,  2,  4,  8],
+            [2,  4,  8, 16],
+            [4,  8, 16, 32],
+            [8, 16, 32, 64]],
+            dtype = int)
+        self.assertTrue(Board(start).is_valid())
+
+        # Only down or right is valid
+        start=np.array([
+            [64, 32, 16,  8],
+            [32, 16,  8,  4],
+            [16,  8,  4,  2],
+            [8,  4,  2,  0]],
+            dtype = int)
+        self.assertTrue(Board(start).is_valid())
+
+        # No moves left
+        start=np.array([
+            [64, 32, 16,  8],
+            [32, 16,  8,  4],
+            [16,  8,  4,  2],
+            [8,  4,  2,  32]],
+            dtype = int)
+        self.assertFalse(Board(start).is_valid())
+
 
 if __name__ == "__main__":
     unittest.main()
