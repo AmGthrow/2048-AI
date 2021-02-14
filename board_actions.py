@@ -2,6 +2,7 @@ from selenium.webdriver.common.keys import Keys
 import numpy as np
 from bs4 import BeautifulSoup
 import re
+import AI
 
 
 class BoardDriver:
@@ -88,3 +89,13 @@ class BoardDriver:
 
     def move_down(self):
         self.html.send_keys(Keys.DOWN)
+
+    def perform_best_move(self, board):
+        function_names = {
+            'ai_up': self.move_up,
+            'ai_down': self.move_down,
+            'ai_left':self.move_left,
+            'ai_right':self.move_right
+        }
+        move = AI.get_best_move(board, 3, 200)
+        function_names[move.__name__]()
