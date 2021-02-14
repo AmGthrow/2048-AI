@@ -7,8 +7,6 @@ board.spawn_random_tile()
 
 def get_best_move(original_board, num_moves, num_trials):
     # Instantiate a Board
-    # BUG: BRO WHAT THE FUCK WHY DOES BOARD() NOT JUST MAKE NP.ZEROS WHY THE FUCK DOES IT ACT LIKE I GAVE IT A FUCKING ARGUMENT
-    # LOOK TRY INITIALIZING ai_board = Board() AGAIN LOOK IT JUST REPEATS THE MF BOARD INSTEAD OF RESETTING WITH A NEW ONE
     ai_board = Board()
     # List down all possible first moves we could make
     fm_candidates = [ai_up, ai_down, ai_left, ai_right]
@@ -63,7 +61,7 @@ def ai_right(board):
             
 while board.is_valid():
     board.show_board()
-    best_move = get_best_move(board.board, 3, 300)
+    best_move = get_best_move(board.board, 4, 500)
     print(best_move)
     best_move(board)
     board.spawn_random_tile()
