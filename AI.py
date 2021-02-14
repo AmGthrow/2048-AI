@@ -21,33 +21,50 @@ def get_best_move(original_board, num_moves, num_trials):
         # Skip this first move if it's invalid
         if not first_move(ai_board):
             continue
-
-        # Keep an array for the scores we get in each trial
-        trial_scores = np.zeros(num_trials, dtype=int)
-        # Do a bunch of trials with random moves after the first move
-        for num_trial in range(num_trials):
-            # Make a new board that starts off with the ai_board's first move
-            search_board = Board(ai_board.board.copy())
-            search_board.score = ai_board.score # Copy over the score from performing the first move
-            search_board.spawn_random_tile()
-            
-            moves_done = 0
-            # Do <num_moves> number of random moves
-            while moves_done < num_moves and search_board.is_valid():
-                # Proceed to the next random move if we hit a dead end
-                if not search_board.random_move():
-                    continue
-                search_board.spawn_random_tile()
-                moves_done += 1
-            # add the score of this trial to trial_scores
-            trial_scores[num_trial] = search_board.score
-        # Put the average score of all the trials into fm_scores
-        fm_scores[fm_index] = np.average(trial_scores)
+        
+        # Do a bunch of trials using the "post-first move" board
+        trials_score = ai_trials(ai_board.board.copy(), num_moves, num_trials)
+        # Put the trials_score into fm_scores
+        fm_scores[fm_index] = trials_score
 
     # get the index which got the highest score
     max_score_index = np.argmax(fm_scores)
     #return the corresponding move
     return fm_candidates[max_score_index]
+
+def ai_trials(trial_board, num_moves, num_trials):
+    """performs <num_moves> random moves <num_trials> times on a given board, resetting the board to original between every trial,
+    and returns the total score we get from all the trials
+
+    Args:
+        trial_board (np.ndarray): The starting configuration of the board
+        num_moves (int): the "depth" of the number of moves that each trial expects to investigate
+        num_trials (int): the number of iterations for the AI to run
+
+    Returns:
+        int: The score we get as a result of all the trials
+    """
+    # Keep track of the total "score" of these trials
+    trials_score = 0
+    # Do a bunch of trials with random moves after the first move
+    for num_trial in range(num_trials):
+        # Make a new board that starts off with the ai_board's first move
+        search_board = Board(trial_board.copy())
+        search_board.spawn_random_tile()
+        
+        moves_done = 0
+        # Do <num_moves> number of random moves
+        while moves_done < num_moves and search_board.is_valid():
+            # Proceed to the next random move if we hit a dead end
+            if not search_board.random_move():
+                continue
+            search_board.spawn_random_tile()
+            moves_done += 1
+        # Add the board's score after <num_moves> moves to trials_score
+        trials_score += search_board.score
+    return trials_score
+
+
 
 def ai_up(board):
     return board.move_up()
