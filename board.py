@@ -21,7 +21,7 @@ class Board:
     def reset_board(self, new_board=None):
         """Sets everything on the board back to 0
         """
-        if new_board == None:
+        if new_board.all() == None:
             new_board = np.zeros((4, 4), dtype=int).copy()
         self.new_board(new_board)
 
