@@ -8,6 +8,7 @@ board.spawn_random_tile()
 def get_best_move(original_board, num_moves, num_trials):
     # Instantiate a Board
     # BUG: BRO WHAT THE FUCK WHY DOES BOARD() NOT JUST MAKE NP.ZEROS WHY THE FUCK DOES IT ACT LIKE I GAVE IT A FUCKING ARGUMENT
+    # LOOK TRY INITIALIZING ai_board = Board() AGAIN LOOK IT JUST REPEATS THE MF BOARD INSTEAD OF RESETTING WITH A NEW ONE
     ai_board = Board()
     # List down all possible first moves we could make
     fm_candidates = [ai_up, ai_down, ai_left, ai_right]
@@ -22,13 +23,14 @@ def get_best_move(original_board, num_moves, num_trials):
         # Skip this first move if it's invalid
         if not first_move(ai_board):
             continue
-        # NOTE: you aren't adding the score from first_move
 
+        # Keep an array for the scores we get in each trial
+        trial_scores = np.zeros(num_trials, dtype=int)
         # Do a bunch of trials with random moves after the first move
-        for _ in range(num_trials):
+        for num_trial in range(num_trials):
             # Make a new board that starts off with the ai_board's first move
             search_board = Board(ai_board.board.copy())
-            search_board.score = ai_board.score
+            search_board.score = ai_board.score # Copy over the score from performing the first move
             search_board.spawn_random_tile()
             
             moves_done = 0
@@ -39,9 +41,11 @@ def get_best_move(original_board, num_moves, num_trials):
                     continue
                 search_board.spawn_random_tile()
                 moves_done += 1
-                # Record the biggest score we can get
-                if search_board.score > fm_scores[fm_index]:
-                    fm_scores[fm_index] = search_board.score
+            # add the score of this trial to trial_scores
+            trial_scores[num_trial] = search_board.score
+        # Put the average score of all the trials into fm_scores
+        fm_scores[fm_index] = np.average(trial_scores)
+
     # get the index which got the highest score
     max_score_index = np.argmax(fm_scores)
     #return the corresponding move
@@ -59,7 +63,7 @@ def ai_right(board):
             
 while board.is_valid():
     board.show_board()
-    best_move = get_best_move(board.board, 3, 500)
+    best_move = get_best_move(board.board, 3, 300)
     print(best_move)
     best_move(board)
     board.spawn_random_tile()
