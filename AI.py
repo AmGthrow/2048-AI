@@ -1,10 +1,6 @@
 import numpy as np
 from board import Board
 
-board = Board()
-board.spawn_random_tile()
-board.spawn_random_tile()
-
 def get_best_move(original_board, num_moves, num_trials):
     # Instantiate a Board
     ai_board = Board()
@@ -76,10 +72,20 @@ def ai_right(board):
     return board.move_right()
 
             
-while board.is_valid():
-    board.show_board()
-    best_move = get_best_move(board.board, 4, 500)
-    print(best_move)
-    best_move(board)
+if __name__ == "__main__":
+    # Make a new board and add 2 random times
+    board = Board()
     board.spawn_random_tile()
-board.show_board()
+    board.spawn_random_tile()
+    
+    # Have the AI work on the board until a game over
+    while board.is_valid():
+        board.show_board()
+        # store what AI thinks is the best move
+        best_move = get_best_move(board.board, 4, 500)
+        print(best_move.__name__)
+        # execute the best move
+        best_move(board)
+        # add another tile
+        board.spawn_random_tile()
+    board.show_board()
