@@ -28,7 +28,7 @@ class Board:
         print(f"Score: {self.score}")
 
     def is_valid(self):
-        board_copy = Board(self.board)
+        board_copy = Board(self.board.copy())
         return board_copy.move_up() or board_copy.move_down() or board_copy.move_left() or board_copy.move_right()
 
     def new_tile(self, y, x, val):
@@ -169,3 +169,9 @@ class Board:
 
 if __name__ == "__main__":
     board = Board()
+    board.spawn_random_tile()
+    board.spawn_random_tile()
+    for _ in range(10):
+        board.show_board()
+        print(board.random_move())
+        board.spawn_random_tile()
