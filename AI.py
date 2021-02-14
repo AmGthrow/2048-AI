@@ -2,6 +2,16 @@ import numpy as np
 from board import Board
 
 def get_best_move(original_board, num_moves, num_trials):
+    """Receives a board and returns what a function capable of executing what it thinks is the best move
+
+    Args:
+        original_board (np.ndarray): the current state of the 2048 board
+        num_moves (int): The number of moves it looks ahead into the future fore
+        num_trials (int): the number of iterations for the AI to run
+
+    Returns:
+        function: a function that you can run 'function(original_board)' on to perform the best move
+    """
     # Instantiate a Board
     ai_board = Board()
     # List down all possible first moves we could make
