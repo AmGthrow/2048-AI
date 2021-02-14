@@ -11,21 +11,19 @@ class Board:
 
     def __init__(self, board=np.zeros((DEFAULT_ROWS, DEFAULT_COLS), dtype=int)):
         self.new_board(board)
-    
+
     def new_board(self, new_board):
         self.board = new_board
         self.score = 0
         self.rows = len(self.board)
         self.cols = len(self.board[0])
 
-    #BUG: Find a way to put new_board onto self.board AND make it default to 0s
-    # If you run "reset_board" twice, new_board takes the value of the current board 
-    # So self.new_board(new_board) wouldn't change anything on the board
-    def reset_board(self, new_board=np.zeros((2, 2), dtype=int)):
+    def reset_board(self, new_board=None):
         """Sets everything on the board back to 0
         """
-        # self.new_board(new_board)
-        self.board = np.zeros((self.rows, self.cols), dtype=int)
+        if new_board.all() == None:
+            new_board = np.zeros((4, 4), dtype=int).copy()
+        self.new_board(new_board)
 
     def reset_score(self, score=0):
         self.score = score
