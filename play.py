@@ -9,7 +9,7 @@ from board_actions import BoardDriver
 import logging
 
 logging.basicConfig(filename='BoardDriver.log', filemode='w',
-                    format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+                    format='%(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 
 
 def play():
@@ -22,8 +22,11 @@ def play():
     board = BoardDriver(browser)
     # sends keys in the sequence UP, DOWN, LEFT, RIGHT and restarts the game when the option appears
     while True:
-        # TODO: Log the best move?
-        board.perform_best_move(board.get_tiles())
+        # Retrieve the best move we can perform
+        best_move = board.get_best_move(board.get_tiles())
+        logging.debug(f"Best move is {best_move.__name__}")
+        # Execute the best move
+        best_move()
 
         # it takes a while for the HTML to update with the board, so I need to wait a bit. Otherwise, get_tiles()
         # gives a wrong board, one where the move/s might not have been done yet
