@@ -35,9 +35,12 @@ def play():
             # Press the "Keep Going" button that shows up when we reach the 2048 tile
             continueGame = browser.find_element_by_class_name(
                 'keep-playing-button')
-            # Assuming we reached 2048, log the board's current state
-            logging.info("REACHED 2048")
-            logging.info(str(board.get_tiles()))
+            # NOTE: continueGame actually exists all the time, so I can't just 'if continueGame:'
+            # Instead, I need to check if it actually says "Keep Going" or not
+            if continueGame.text != '':
+                # Assuming we reached 2048, log the board's current state
+                logging.info("REACHED 2048")
+                logging.info(str(board.get_tiles()))
             continueGame.click()
         except:
             continue
@@ -47,12 +50,13 @@ def play():
         try:
             # Reset the game when we lose
             resetGame = browser.find_element_by_class_name('retry-button')
-            # Assuming we found the resetGame button, log the board and score
-            logging.info("GAME OVER")
-            logging.info(str(board.get_tiles()))
-            score = browser.find_element_by_class_name('score-container')
-            # Reset the game
-            logging.info(f"SCORE: {score.text}")
+            if resetGame:
+                # Assuming we found the resetGame button, log the board and score
+                logging.info("GAME OVER")
+                logging.info(str(board.get_tiles()))
+                score = browser.find_element_by_class_name('score-container')
+                # Reset the game
+                logging.info(f"SCORE: {score.text}")
             resetGame.click()
         except:
             continue
