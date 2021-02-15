@@ -13,7 +13,8 @@ logging.basicConfig(filename='BoardDriver.log', filemode='w',
                     format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
-def play():
+def play(num_moves = 3, num_trials = 200):
+    logging.info(f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}")
     # Takes the browser to play2048.co and starts a game
     browser = webdriver.Chrome()
     browser.get('https://play2048.co/')
@@ -25,7 +26,7 @@ def play():
     while True:
         print(f"New board: \n{board.get_tiles()}")
         # Retrieve the best move we can perform
-        best_move = board.get_best_move(board.get_tiles())
+        best_move = board.get_best_move(board.get_tiles(), num_moves, num_trials)
         print(f"Best move is {best_move.__name__}")
         # Execute the best move
         best_move()
