@@ -92,7 +92,7 @@ class BoardDriver:
     def move_down(self):
         self.html.send_keys(Keys.DOWN)
 
-    def perform_best_move(self, board, num_moves = DEFAULT_NUM_MOVES, num_trials = DEFAULT_NUM_TRIALS):
+    def get_best_move(self, board, num_moves = DEFAULT_NUM_MOVES, num_trials = DEFAULT_NUM_TRIALS):
         function_names = {
             'ai_up': self.move_up,
             'ai_down': self.move_down,
@@ -100,4 +100,4 @@ class BoardDriver:
             'ai_right':self.move_right
         }
         move = AI.get_best_move(board, num_moves, num_trials)
-        function_names[move.__name__]()
+        return function_names[move.__name__]
