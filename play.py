@@ -32,7 +32,6 @@ def play():
 
         # it takes a while for the HTML to update with the board, so I need to wait a bit. Otherwise, get_tiles()
         # gives a wrong board, one where the move/s might not have been done yet
-        time.sleep(0.1)
 
         # Try to click "Keep Going" if it shows up
         try:
