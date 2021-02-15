@@ -14,6 +14,8 @@ logging.basicConfig(filename='BoardDriver.log', filemode='w',
 
 
 def play(num_moves = 3, num_trials = 200):
+    wins = 0 
+    losses = 0
     logging.info(f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}")
     # Takes the browser to play2048.co and starts a game
     browser = webdriver.Chrome()
@@ -49,6 +51,7 @@ def play(num_moves = 3, num_trials = 200):
             logging.info("REACHED 2048")
             logging.info('\n' + win_board)
             logging.info(f"SCORE: {win_score}")
+            wins += 1
         except:
             pass
 
@@ -67,6 +70,8 @@ def play(num_moves = 3, num_trials = 200):
             logging.info("GAME OVER")
             logging.info('\n' + lose_board)
             logging.info(f"SCORE: {lose_score}")
+            losses += 1
+            logging.info(f"Win rate: {round((100 * wins/losses), 2)}%")
         except:
             pass
 
