@@ -10,7 +10,7 @@ import logging
 
 # TODO: Use a logger instead of basicConfig
 logging.basicConfig(filename='BoardDriver.log', filemode='w',
-                    format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+                    format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
 def play(num_moves = 3, num_trials = 200):
