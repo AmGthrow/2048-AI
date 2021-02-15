@@ -15,7 +15,7 @@ def get_best_move(original_board, num_moves, num_trials):
     # Instantiate a Board
     ai_board = Board()
     # List down all possible first moves we could make
-    fm_candidates = [ai_up, ai_down, ai_left, ai_right]
+    fm_candidates = [ai_right, ai_down, ai_left, ai_up]
     # Make an array to keep track of scores
     fm_scores = np.zeros(len(fm_candidates), dtype=int)
     for fm_index in range(len(fm_candidates)):
@@ -26,10 +26,13 @@ def get_best_move(original_board, num_moves, num_trials):
 
         # Skip this first move if it's invalid
         if not first_move(ai_board):
+            fm_scores[fm_index] = -1
             continue
         
         # Do a bunch of trials using the "post-first move" board
         trials_score = ai_trials(ai_board.board.copy(), num_moves, num_trials)
+        # Add the score we get from the first move, weighted by the number of trials done
+        trials_score += ai_board.score * num_trials
         # Put the trials_score into fm_scores
         fm_scores[fm_index] = trials_score
 

@@ -2,7 +2,10 @@ from selenium.webdriver.common.keys import Keys
 import numpy as np
 from bs4 import BeautifulSoup
 import re
+import AI
 
+DEFAULT_NUM_MOVES = 3
+DEFAULT_NUM_TRIALS = 200
 
 class BoardDriver:
     def __init__(self, browser):
@@ -88,3 +91,13 @@ class BoardDriver:
 
     def move_down(self):
         self.html.send_keys(Keys.DOWN)
+
+    def get_best_move(self, board, num_moves = DEFAULT_NUM_MOVES, num_trials = DEFAULT_NUM_TRIALS):
+        function_names = {
+            'ai_up': self.move_up,
+            'ai_down': self.move_down,
+            'ai_left':self.move_left,
+            'ai_right':self.move_right
+        }
+        move = AI.get_best_move(board, num_moves, num_trials)
+        return function_names[move.__name__]
