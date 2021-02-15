@@ -9,7 +9,7 @@ from board_actions import BoardDriver
 import logging
 
 logging.basicConfig(filename='BoardDriver.log', filemode='w',
-                    format='%(name)s - %(levelname)s - %(message)s', encoding="utf-8", level=logging.INFO)
+                    format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
 def play():
