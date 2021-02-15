@@ -26,6 +26,7 @@ def get_best_move(original_board, num_moves, num_trials):
 
         # Skip this first move if it's invalid
         if not first_move(ai_board):
+            fm_scores[fm_index] = -1
             continue
         
         # Do a bunch of trials using the "post-first move" board
