@@ -30,6 +30,8 @@ def get_best_move(original_board, num_moves, num_trials):
         
         # Do a bunch of trials using the "post-first move" board
         trials_score = ai_trials(ai_board.board.copy(), num_moves, num_trials)
+        # Add the score we get from the first move, weighted by the number of trials done
+        trials_score += ai_board.score * num_trials
         # Put the trials_score into fm_scores
         fm_scores[fm_index] = trials_score
 
