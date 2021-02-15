@@ -8,8 +8,9 @@ import time
 from board_actions import BoardDriver
 import logging
 
+# TODO: Use a logger instead of basicConfig
 logging.basicConfig(filename='BoardDriver.log', filemode='w',
-                    format='%(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+                    format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
 def play():
@@ -22,16 +23,16 @@ def play():
     board = BoardDriver(browser)
     # sends keys in the sequence UP, DOWN, LEFT, RIGHT and restarts the game when the option appears
     while True:
+        print(f"New board: \n{board.get_tiles()}")
         # Retrieve the best move we can perform
         best_move = board.get_best_move(board.get_tiles())
-        logging.debug(f"Best move is {best_move.__name__}")
+        print(f"Best move is {best_move.__name__}")
         # Execute the best move
         best_move()
 
         # it takes a while for the HTML to update with the board, so I need to wait a bit. Otherwise, get_tiles()
         # gives a wrong board, one where the move/s might not have been done yet
         time.sleep(0.1)
-        logging.debug(f"New board: {board.get_tiles()}")
 
         # Try to click "Keep Going" if it shows up
         try:
@@ -43,7 +44,7 @@ def play():
             if continueGame.text != '':
                 # Assuming we reached 2048, log the board's current state
                 logging.info("REACHED 2048")
-                logging.info(str(board.get_tiles()))
+                logging.info('\n' + str(board.get_tiles()))
             continueGame.click()
         except:
             continue
@@ -56,7 +57,7 @@ def play():
             if resetGame:
                 # Assuming we found the resetGame button, log the board and score
                 logging.info("GAME OVER")
-                logging.info(str(board.get_tiles()))
+                logging.info('\n' + str(board.get_tiles()))
                 score = browser.find_element_by_class_name('score-container')
                 # Reset the game
                 logging.info(f"SCORE: {score.text}")
