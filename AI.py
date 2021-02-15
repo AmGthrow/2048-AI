@@ -15,7 +15,7 @@ def get_best_move(original_board, num_moves, num_trials):
     # Instantiate a Board
     ai_board = Board()
     # List down all possible first moves we could make
-    fm_candidates = [ai_up, ai_down, ai_left, ai_right]
+    fm_candidates = [ai_right, ai_down, ai_left, ai_up]
     # Make an array to keep track of scores
     fm_scores = np.zeros(len(fm_candidates), dtype=int)
     for fm_index in range(len(fm_candidates)):
