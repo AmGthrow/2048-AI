@@ -20,6 +20,11 @@ logging.basicConfig(
 
 
 def play(num_moves=3, num_trials=200):
+    # Connect to a database to store results from trials
+    conn = sqlite3.connect("2048_trials.db")
+    cursor = conn.cursor()
+
+    # Track wins/losses to get win rate
     wins = 0
     losses = 0
     logging.info(
