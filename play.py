@@ -65,7 +65,7 @@ def play(num_moves=3, num_trials=200, runs_left=0):
 
     board = BoardDriver(browser)
     # sends keys in the sequence UP, DOWN, LEFT, RIGHT and restarts the game when the option appears
-    while runs_done < runs_left:
+    while runs_done < runs_left or runs_left == 0:
         print(f"New board: \n{board.get_tiles()}")
         # Retrieve the best move we can perform
         best_move = board.get_best_move(
