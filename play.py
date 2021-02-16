@@ -38,7 +38,8 @@ def play(num_moves=3, num_trials=200):
     while True:
         print(f"New board: \n{board.get_tiles()}")
         # Retrieve the best move we can perform
-        best_move = board.get_best_move(board.get_tiles(), num_moves, num_trials)
+        best_move = board.get_best_move(
+            board.get_tiles(), num_moves, num_trials)
         print(f"Best move is {best_move.__name__}")
         # Execute the best move
         best_move()
@@ -50,14 +51,16 @@ def play(num_moves=3, num_trials=200):
         try:
             # Store the current board and score
             win_board = str(board.get_tiles())
-            win_score = browser.find_element_by_class_name("score-container").text
+            win_score = browser.find_element_by_class_name(
+                "score-container").text
             # Sometimes, an extra "+ <score>" is left in the HTML from when the JS
             # Adds points after a merge, like +4 or +8. I only need to extract the first
             # set of numbers, which is my real score
             win_score = re.search(r"\d+", win_score).group()
 
             # Press the "Keep Going" button that shows up when we reach the 2048 tile
-            continueGame = browser.find_element_by_class_name("keep-playing-button")
+            continueGame = browser.find_element_by_class_name(
+                "keep-playing-button")
             continueGame.click()  # Raises an exception if the button doesn't exist
 
             # Assuming we didn't fly into the 'except' yet, log the board's current state
@@ -74,7 +77,8 @@ def play(num_moves=3, num_trials=200):
         try:
             # Store the current board and score
             lose_board = str(board.get_tiles())
-            lose_score = browser.find_element_by_class_name("score-container").text
+            lose_score = browser.find_element_by_class_name(
+                "score-container").text
             # Sometimes, an extra "+ <score>" is left in the HTML from when the JS
             # Adds points after a merge, like +4 or +8. I only need to extract the first
             # set of numbers, which is my real score
@@ -95,23 +99,23 @@ def play(num_moves=3, num_trials=200):
             # Also, throw the results into the database
 
             # Connect to a database to store results from trials
-            conn = sqlite3.connect("2048_trials.db")
+            conn = sqlite3.connect("2048_AI_results.db")
             cursor = conn.cursor()
-            cursor.execute("""CREATE TABLE IF NOT EXISTS trial_results
+            cursor.execute(
+                """CREATE TABLE IF NOT EXISTS results
                             (
-                            trial_no INTEGER PRIMARY KEY,
+                            attempt_no INTEGER PRIMARY KEY,
                             num_moves SMALLINT,
                             num_trials SMALLINT,
                             highest_score INT,
                             did_win BOOL
                             )
-                            """)
-            cursor.execute("INSERT INTO trial_results VALUES(NULL, ?, ?, ?, ?)",
-                           (num_moves,
-                            num_trials,
-                            lose_score,
-                            int(did_win)
-                            ))
+                            """
+            )
+            cursor.execute(
+                "INSERT INTO results VALUES(NULL, ?, ?, ?, ?)",
+                (num_moves, num_trials, lose_score, int(did_win)),
+            )
             conn.commit()
             conn.close()
 
