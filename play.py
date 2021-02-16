@@ -146,6 +146,8 @@ def play(num_moves=3, num_trials=200, runs_left=0):
                 (num_moves, num_trials, lose_score, int(did_win)),
             )
             conn.commit()
+            last_trial = cursor.execute(
+                "SELECT MAX(attempt_no) FROM results").fetchone()[0]
             conn.close()
 
             # Declare this run as finished and start another one
@@ -153,6 +155,9 @@ def play(num_moves=3, num_trials=200, runs_left=0):
             did_win = False
 
             # TODO: Take a screenshot of the "Game Over" board
+            # For now I guess a text version of the board will do
+            with open(f'GameOvers/{last_trial}.txt', 'w') as last_board:
+                last_board.write(lose_board + f'\nSCORE: {lose_score}')
         except:
             pass
     logging.info("Finished session")
