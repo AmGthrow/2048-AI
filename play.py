@@ -14,6 +14,20 @@ import argparse
 parser = argparse.ArgumentParser(
     description="Run a 2048 AI to play 2048 while saving results."
 )
+parser.add_argument(
+    "num-moves",
+    type=int,
+    default=3,
+    help="Number of moves for the AI to look ahead into the future for",
+)
+parser.add_argument(
+    "num-trials",
+    type=int,
+    default=200,
+    help="Number of trials that the AI runs for every move to calculate a best score",
+)
+
+args = parser.parse_args()
 
 # TODO: Use a logger instead of basicConfig
 logging.basicConfig(
@@ -130,4 +144,4 @@ def play(num_moves=3, num_trials=200):
 
 
 if __name__ == "__main__":
-    play(2, 200)
+    play(args.num_moves, args.num_trials)
