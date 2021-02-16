@@ -9,18 +9,24 @@ from board_actions import BoardDriver
 import logging
 
 # TODO: Use a logger instead of basicConfig
-logging.basicConfig(filename='BoardDriver.log', filemode='w',
-                    format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(
+    filename="BoardDriver.log",
+    filemode="w",
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
 
 
-def play(num_moves = 3, num_trials = 200):
-    wins = 0 
+def play(num_moves=3, num_trials=200):
+    wins = 0
     losses = 0
-    logging.info(f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}")
+    logging.info(
+        f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}"
+    )
     # Takes the browser to play2048.co and starts a game
     browser = webdriver.Chrome()
-    browser.get('https://play2048.co/')
-    newGame = browser.find_element_by_class_name('restart-button')
+    browser.get("https://play2048.co/")
+    newGame = browser.find_element_by_class_name("restart-button")
     newGame.click()
 
     board = BoardDriver(browser)
@@ -40,16 +46,15 @@ def play(num_moves = 3, num_trials = 200):
         try:
             # Store the current board and score
             win_board = str(board.get_tiles())
-            win_score = browser.find_element_by_class_name('score-container').text
+            win_score = browser.find_element_by_class_name("score-container").text
 
             # Press the "Keep Going" button that shows up when we reach the 2048 tile
-            continueGame = browser.find_element_by_class_name(
-                'keep-playing-button')
-            continueGame.click()    # Raises an exception if the button doesn't exist
+            continueGame = browser.find_element_by_class_name("keep-playing-button")
+            continueGame.click()  # Raises an exception if the button doesn't exist
 
             # Assuming we didn't fly into the 'except' yet, log the board's current state
             logging.info("REACHED 2048")
-            logging.info('\n' + win_board)
+            logging.info("\n" + win_board)
             logging.info(f"SCORE: {win_score}")
             wins += 1
         except:
@@ -60,15 +65,15 @@ def play(num_moves = 3, num_trials = 200):
         try:
             # Store the current board and score
             lose_board = str(board.get_tiles())
-            lose_score = browser.find_element_by_class_name('score-container').text
+            lose_score = browser.find_element_by_class_name("score-container").text
 
             # Reset the game when we lose
-            resetGame = browser.find_element_by_class_name('retry-button')
-            resetGame.click()   # Raises an exception if the button doesn't exist
+            resetGame = browser.find_element_by_class_name("retry-button")
+            resetGame.click()  # Raises an exception if the button doesn't exist
 
             # Assuming we didn't go into the 'except' yet, log the current board and score
             logging.info("GAME OVER")
-            logging.info('\n' + lose_board)
+            logging.info("\n" + lose_board)
             logging.info(f"SCORE: {lose_score}")
             losses += 1
             logging.info(f"Win rate: {round((100 * wins/losses), 2)}%")
@@ -77,4 +82,4 @@ def play(num_moves = 3, num_trials = 200):
 
 
 if __name__ == "__main__":
-    play()
+    play(2, 200)

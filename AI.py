@@ -1,6 +1,7 @@
 import numpy as np
 from board import Board
 
+
 def get_best_move(original_board, num_moves, num_trials):
     """Receives a board and returns what a function capable of executing what it thinks is the best move
 
@@ -28,7 +29,7 @@ def get_best_move(original_board, num_moves, num_trials):
         if not first_move(ai_board):
             fm_scores[fm_index] = -1
             continue
-        
+
         # Do a bunch of trials using the "post-first move" board
         trials_score = ai_trials(ai_board.board.copy(), num_moves, num_trials)
         # Add the score we get from the first move, weighted by the number of trials done
@@ -38,8 +39,9 @@ def get_best_move(original_board, num_moves, num_trials):
 
     # get the index which got the highest score
     max_score_index = np.argmax(fm_scores)
-    #return the corresponding move
+    # return the corresponding move
     return fm_candidates[max_score_index]
+
 
 def ai_trials(trial_board, num_moves, num_trials):
     """performs <num_moves> random moves <num_trials> times on a given board, resetting the board to original between every trial,
@@ -60,7 +62,7 @@ def ai_trials(trial_board, num_moves, num_trials):
         # Make a new board that starts off with the ai_board's first move
         search_board = Board(trial_board.copy())
         search_board.spawn_random_tile()
-        
+
         moves_done = 0
         # Do <num_moves> number of random moves
         while moves_done < num_moves and search_board.is_valid():
@@ -74,23 +76,28 @@ def ai_trials(trial_board, num_moves, num_trials):
     return trials_score
 
 
-
 def ai_up(board):
     return board.move_up()
+
+
 def ai_down(board):
     return board.move_down()
+
+
 def ai_left(board):
     return board.move_left()
+
+
 def ai_right(board):
     return board.move_right()
 
-            
+
 if __name__ == "__main__":
     # Make a new board and add 2 random times
     board = Board()
     board.spawn_random_tile()
     board.spawn_random_tile()
-    
+
     # Have the AI work on the board until a game over
     while board.is_valid():
         board.show_board()

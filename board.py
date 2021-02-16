@@ -6,8 +6,7 @@ DEFAULT_COLS = 4
 
 
 class Board:
-    """Object representing a board you can play 2048 on
-    """
+    """Object representing a board you can play 2048 on"""
 
     def __init__(self, board=np.zeros((DEFAULT_ROWS, DEFAULT_COLS), dtype=int)):
         self.new_board(board)
@@ -19,8 +18,7 @@ class Board:
         self.cols = len(self.board[0])
 
     def reset_board(self, new_board=None):
-        """Sets everything on the board back to 0
-        """
+        """Sets everything on the board back to 0"""
         if new_board.all() == None:
             new_board = np.zeros((4, 4), dtype=int).copy()
         self.new_board(new_board)
@@ -34,7 +32,12 @@ class Board:
 
     def is_valid(self):
         board_copy = Board(self.board.copy())
-        return board_copy.move_up() or board_copy.move_down() or board_copy.move_left() or board_copy.move_right()
+        return (
+            board_copy.move_up()
+            or board_copy.move_down()
+            or board_copy.move_left()
+            or board_copy.move_right()
+        )
 
     def new_tile(self, y, x, val):
         """Replaces the value of the specified tile in the board
@@ -47,7 +50,7 @@ class Board:
         self.board[y][x] = val
 
     def spawn_random_tile(self):
-        """Spawns a new tile (either 2 or 4) in one of the tiles on the board which currently has 
+        """Spawns a new tile (either 2 or 4) in one of the tiles on the board which currently has
         a value of 0
 
         Returns:
@@ -134,8 +137,7 @@ class Board:
         return is_valid
 
     def shift_left(self):
-        """Shifts every tile as far left as it could go without merging anything
-        """
+        """Shifts every tile as far left as it could go without merging anything"""
         for row in range(self.rows):
             move_to = 0  # tracks which col a tile to move should be moved to
             for col in range(self.cols):
@@ -143,7 +145,10 @@ class Board:
                     # swap col and move_to
                     # You might be alarmed that we're swapping but since this only happens if col == 0, this is
                     # more like a "bubble sort" where 0s get bubbled up
-                    self.board[row][move_to], self.board[row][col] = self.board[row][col], self.board[row][move_to]
+                    self.board[row][move_to], self.board[row][col] = (
+                        self.board[row][col],
+                        self.board[row][move_to],
+                    )
                     move_to += 1
 
     def merge_left(self):
@@ -154,7 +159,7 @@ class Board:
         """
         score_add = 0
         for row in range(self.rows):
-            to_merge = 0    # tracks which tile should be "merged into"
+            to_merge = 0  # tracks which tile should be "merged into"
             # skip the 1st column since it's what's being merged into
             for col in range(1, self.cols):
                 # skip to the next one if current is 0
