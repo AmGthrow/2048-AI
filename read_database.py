@@ -4,6 +4,9 @@ import sqlite3
 def get_all(num_moves=None, num_trials=None):
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
+    # ? Is there  a better way to do this? Something like num_moves = anything?
+    # ? That way I can set default values for num_moves and num_trials to be that 'anything'
+    # ? and I wouldn't have this if-else
     if num_moves and num_trials:
         cursor.execute("SELECT * FROM results WHERE num_moves = ? AND num_trials = ?",
                        (num_moves, num_trials))
