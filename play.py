@@ -123,7 +123,6 @@ def play(num_moves=3, num_trials=200, runs_left=0):
             logging.info("\n" + lose_board)
             logging.info(f"SCORE: {lose_score}")
             losses += 1
-            did_win = False
             logging.info(f"Win rate: {round((100 * wins/losses), 2)}%")
 
             # Also, throw the results into the database
@@ -151,6 +150,7 @@ def play(num_moves=3, num_trials=200, runs_left=0):
 
             # Declare this run as finished and start another one
             runs_done += 1
+            did_win = False
 
             # TODO: Take a screenshot of the "Game Over" board
         except:
