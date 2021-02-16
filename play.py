@@ -20,13 +20,10 @@ logging.basicConfig(
 
 
 def play(num_moves=3, num_trials=200):
-    # Connect to a database to store results from trials
-    conn = sqlite3.connect("2048_trials.db")
-    cursor = conn.cursor()
-
     # Track wins/losses to get win rate
     wins = 0
     losses = 0
+    did_win = False
     logging.info(
         f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}"
     )
@@ -68,6 +65,7 @@ def play(num_moves=3, num_trials=200):
             logging.info("\n" + win_board)
             logging.info(f"SCORE: {win_score}")
             wins += 1
+            did_win = True
         except:
             pass
 
@@ -92,6 +90,31 @@ def play(num_moves=3, num_trials=200):
             logging.info(f"SCORE: {lose_score}")
             losses += 1
             logging.info(f"Win rate: {round((100 * wins/losses), 2)}%")
+
+            # Also, throw the results into the database
+
+            # Connect to a database to store results from trials
+            conn = sqlite3.connect("2048_trials.db")
+            cursor = conn.cursor()
+            cursor.execute("""CREATE TABLE IF NOT EXISTS trial_results
+                            (
+                            trial_no INTEGER PRIMARY KEY,
+                            num_moves SMALLINT,
+                            num_trials SMALLINT,
+                            highest_score INT,
+                            did_win BOOL
+                            )
+                            """)
+            cursor.execute("INSERT INTO trial_results VALUES(NULL, ?, ?, ?, ?)",
+                           (num_moves,
+                            num_trials,
+                            lose_score,
+                            int(did_win)
+                            ))
+            conn.commit()
+            conn.close()
+
+            # TODO: Take a screenshot of the "Game Over" board
         except:
             pass
 
