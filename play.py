@@ -15,16 +15,22 @@ parser = argparse.ArgumentParser(
     description="Run a 2048 AI to play 2048 while saving results."
 )
 parser.add_argument(
-    "num-moves",
+    "num_moves",
     type=int,
     default=3,
     help="Number of moves for the AI to look ahead into the future for",
 )
 parser.add_argument(
-    "num-trials",
+    "num_trials",
     type=int,
     default=200,
     help="Number of trials that the AI runs for every move to calculate a best score",
+)
+parser.add_argument(
+    "num_runs",
+    type=int,
+    default=0,
+    help="Number of games the AI will play. 0 means the AI will run until forcibly closed",
 )
 
 args = parser.parse_args()
@@ -38,13 +44,18 @@ logging.basicConfig(
 )
 
 
-def play(num_moves=3, num_trials=200):
+def play(num_moves=3, num_trials=200, runs_left=0):
     # Track wins/losses to get win rate
     wins = 0
     losses = 0
+    # Track whether or not the AI reached 2048 (resets every run)
     did_win = False
+
+    # Track how many runs we've finished
+    runs_done = 0
+
     logging.info(
-        f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}"
+        f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}\nnum_runs: {runs_left}"
     )
     # Takes the browser to play2048.co and starts a game
     browser = webdriver.Chrome()
@@ -54,7 +65,7 @@ def play(num_moves=3, num_trials=200):
 
     board = BoardDriver(browser)
     # sends keys in the sequence UP, DOWN, LEFT, RIGHT and restarts the game when the option appears
-    while True:
+    while runs_done < runs_left:
         print(f"New board: \n{board.get_tiles()}")
         # Retrieve the best move we can perform
         best_move = board.get_best_move(
@@ -138,10 +149,15 @@ def play(num_moves=3, num_trials=200):
             conn.commit()
             conn.close()
 
+            # Declare this run as finished and start another one
+            runs_done += 1
+
             # TODO: Take a screenshot of the "Game Over" board
         except:
             pass
+    logging.info("Finished session")
+    browser.close()
 
 
 if __name__ == "__main__":
-    play(args.num_moves, args.num_trials)
+    play(args.num_moves, args.num_trials, args.num_runs)
