@@ -7,6 +7,8 @@ from selenium.webdriver.common.keys import Keys
 import time
 from board_actions import BoardDriver
 import logging
+import sqlite3
+import re
 
 # TODO: Use a logger instead of basicConfig
 logging.basicConfig(
@@ -47,6 +49,10 @@ def play(num_moves=3, num_trials=200):
             # Store the current board and score
             win_board = str(board.get_tiles())
             win_score = browser.find_element_by_class_name("score-container").text
+            # Sometimes, an extra "+ <score>" is left in the HTML from when the JS
+            # Adds points after a merge, like +4 or +8. I only need to extract the first
+            # set of numbers, which is my real score
+            win_score = re.search(r"\d+", win_score).group()
 
             # Press the "Keep Going" button that shows up when we reach the 2048 tile
             continueGame = browser.find_element_by_class_name("keep-playing-button")
@@ -66,6 +72,10 @@ def play(num_moves=3, num_trials=200):
             # Store the current board and score
             lose_board = str(board.get_tiles())
             lose_score = browser.find_element_by_class_name("score-container").text
+            # Sometimes, an extra "+ <score>" is left in the HTML from when the JS
+            # Adds points after a merge, like +4 or +8. I only need to extract the first
+            # set of numbers, which is my real score
+            lose_score = re.search(r"\d+", lose_score).group()
 
             # Reset the game when we lose
             resetGame = browser.find_element_by_class_name("retry-button")
