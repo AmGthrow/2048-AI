@@ -9,6 +9,11 @@ from board_actions import BoardDriver
 import logging
 import sqlite3
 import re
+import argparse
+
+parser = argparse.ArgumentParser(
+    description="Run a 2048 AI to play 2048 while saving results."
+)
 
 # TODO: Use a logger instead of basicConfig
 logging.basicConfig(
