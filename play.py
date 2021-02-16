@@ -89,6 +89,7 @@ def play(num_moves=3, num_trials=200):
             logging.info("\n" + lose_board)
             logging.info(f"SCORE: {lose_score}")
             losses += 1
+            did_win = False
             logging.info(f"Win rate: {round((100 * wins/losses), 2)}%")
 
             # Also, throw the results into the database
