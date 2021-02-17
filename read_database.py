@@ -64,3 +64,16 @@ def get_win_rate(num_moves=None, num_trials=None):
     print(f"WIN RATE: {round(win_rate * 100, 2)}%")
     conn.close()
 
+
+def get_avg_score(num_moves=None, num_trials=None):
+    conn = sqlite3.connect("2048_AI_results.db")
+    cursor = conn.cursor()
+    if num_moves and num_trials:
+        cursor.execute("SELECT AVG(highest_score) FROM results WHERE num_moves = ? AND num_trials = ?",
+                       (num_moves, num_trials))
+    else:
+        cursor.execute("SELECT AVG(highest_score) FROM results")
+    avg_score = cursor.fetchone()[0]
+    print(f"AVG SCORE: {avg_score}")
+    conn.close()
+
