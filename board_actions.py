@@ -4,11 +4,16 @@ from bs4 import BeautifulSoup
 import re
 import AI
 
-DEFAULT_NUM_MOVES = 3
-DEFAULT_NUM_TRIALS = 200
+DEFAULT_NUM_MOVES = 4
+DEFAULT_NUM_TRIALS = 100
 
 
 class BoardDriver:
+    """An interface between a selenium WebDriver for https://play2048.co/ and the AI 
+    which retrieves a "best move", as well as some helper functions
+    for scraping board information from the WebDriver
+    """
+
     def __init__(self, browser):
         # a selenium WebDriver object that represents the actual page being controlled by selenium
         self.browser = browser
@@ -94,13 +99,24 @@ class BoardDriver:
         self.html.send_keys(Keys.DOWN)
 
     def get_best_move(
-        self, board, num_moves=DEFAULT_NUM_MOVES, num_trials=DEFAULT_NUM_TRIALS
+        self, num_moves=DEFAULT_NUM_MOVES, num_trials=DEFAULT_NUM_TRIALS
     ):
+        """Send the BoardDriver's current board configuration to the AI and get what
+        the best move for the board would be    
+
+        Args:
+        num_moves (int, optional): The number of moves it looks ahead into the future for. Defaults to DEFAULT_NUM_MOVES.
+        num_trials (int, optional): the number of trials for the AI to run. Defaults to DEFAULT_NUM_TRIALS.
+
+        Returns:
+            [type]: [description]
+        """
         function_names = {
             "ai_up": self.move_up,
             "ai_down": self.move_down,
             "ai_left": self.move_left,
             "ai_right": self.move_right,
         }
+        board = self.get_tiles()
         move = AI.get_best_move(board, num_moves, num_trials)
         return function_names[move.__name__]

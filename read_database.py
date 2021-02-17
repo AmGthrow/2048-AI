@@ -2,6 +2,17 @@ import sqlite3
 
 
 def get_all(num_moves=None, num_trials=None, num_results=float('inf')):
+    """Prints out all the trials in the database that satisfy the
+    given parameters
+
+    Args:
+        num_moves (int, optional): The value for num_moves which printed trials must match. Defaults to None.
+        num_trials (int, optional): The value for num_trials which printed trials must match. Defaults to None.
+        num_results (int, optional): The maximum number of results to print. Defaults to float('inf').
+
+    Returns:
+        int: The number of trials which satisfy the parameters
+    """
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
     # ? Is there  a better way to do this? Something like num_moves = anything?
@@ -30,6 +41,17 @@ def get_all(num_moves=None, num_trials=None, num_results=float('inf')):
 
 
 def get_wins(num_moves=None, num_trials=None, num_results=float('inf')):
+    """Prints out all the winning trials in the database that satisfy the
+    given parameters
+
+    Args:
+        num_moves (int, optional): The value for num_moves which printed trials must match. Defaults to None.
+        num_trials (int, optional): The value for num_trials which printed trials must match. Defaults to None.
+        num_results (int, optional): The maximum number of results to print. Defaults to float('inf').
+
+    Returns:
+        int: The number of trials which satisfy the parameters
+    """
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
     if num_moves and num_trials:
@@ -56,6 +78,8 @@ def get_wins(num_moves=None, num_trials=None, num_results=float('inf')):
 
 
 def erase_all():
+    """Erases all trial data from the database
+    """
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
     cursor.execute("DROP TABLE IF EXISTS results")
@@ -64,6 +88,12 @@ def erase_all():
 
 
 def get_win_rate(num_moves=None, num_trials=None):
+    """Get the win rate for a specified configuration of num_moves and num_trials
+
+    Args:
+        num_moves (int, optional): The value for num_moves which printed trials must match. Defaults to None.
+        num_trials (int, optional): The value for num_trials which printed trials must match. Defaults to None.
+    """
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
     if num_moves and num_trials:
@@ -77,6 +107,13 @@ def get_win_rate(num_moves=None, num_trials=None):
 
 
 def get_avg_score(num_moves=None, num_trials=None):
+    """Get the average score for a specified configuration of num_moves and num_trials
+
+    Args:
+        num_moves (int, optional): The value for num_moves which printed trials must match. Defaults to None.
+        num_trials (int, optional): The value for num_trials which printed trials must match. Defaults to None.
+    """
+
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
     if num_moves and num_trials:
