@@ -7,7 +7,7 @@ def get_best_move(original_board, num_moves, num_trials):
 
     Args:
         original_board (np.ndarray): the current state of the 2048 board
-        num_moves (int): The number of moves it looks ahead into the future fore
+        num_moves (int): The number of moves it looks ahead into the future for
         num_trials (int): the number of iterations for the AI to run
 
     Returns:
@@ -93,6 +93,8 @@ def ai_right(board):
 
 
 if __name__ == "__main__":
+    """Try playing a game in the terminal using the AI
+    """
     # Make a new board and add 2 random times
     board = Board()
     board.spawn_random_tile()
@@ -102,7 +104,7 @@ if __name__ == "__main__":
     while board.is_valid():
         board.show_board()
         # store what AI thinks is the best move
-        best_move = get_best_move(board.board, 4, 500)
+        best_move = get_best_move(board.board, 4, 100)
         print(best_move.__name__)
         # execute the best move
         best_move(board)
