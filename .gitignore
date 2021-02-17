@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 2048_trials.db
 .vscode/settings.json
+GameOvers/

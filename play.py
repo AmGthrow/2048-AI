@@ -9,6 +9,31 @@ from board_actions import BoardDriver
 import logging
 import sqlite3
 import re
+import argparse
+
+parser = argparse.ArgumentParser(
+    description="Run a 2048 AI to play 2048 while saving results."
+)
+parser.add_argument(
+    "num_moves",
+    type=int,
+    default=3,
+    help="Number of moves for the AI to look ahead into the future for",
+)
+parser.add_argument(
+    "num_trials",
+    type=int,
+    default=200,
+    help="Number of trials that the AI runs for every move to calculate a best score",
+)
+parser.add_argument(
+    "num_runs",
+    type=int,
+    default=0,
+    help="Number of games the AI will play. 0 means the AI will run until forcibly closed",
+)
+
+args = parser.parse_args()
 
 # TODO: Use a logger instead of basicConfig
 logging.basicConfig(
@@ -19,13 +44,18 @@ logging.basicConfig(
 )
 
 
-def play(num_moves=3, num_trials=200):
+def play(num_moves=3, num_trials=200, runs_left=0):
     # Track wins/losses to get win rate
     wins = 0
     losses = 0
+    # Track whether or not the AI reached 2048 (resets every run)
     did_win = False
+
+    # Track how many runs we've finished
+    runs_done = 0
+
     logging.info(
-        f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}"
+        f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}\nnum_runs: {runs_left}"
     )
     # Takes the browser to play2048.co and starts a game
     browser = webdriver.Chrome()
@@ -35,10 +65,11 @@ def play(num_moves=3, num_trials=200):
 
     board = BoardDriver(browser)
     # sends keys in the sequence UP, DOWN, LEFT, RIGHT and restarts the game when the option appears
-    while True:
+    while runs_done < runs_left or runs_left == 0:
         print(f"New board: \n{board.get_tiles()}")
         # Retrieve the best move we can perform
-        best_move = board.get_best_move(board.get_tiles(), num_moves, num_trials)
+        best_move = board.get_best_move(
+            board.get_tiles(), num_moves, num_trials)
         print(f"Best move is {best_move.__name__}")
         # Execute the best move
         best_move()
@@ -50,14 +81,16 @@ def play(num_moves=3, num_trials=200):
         try:
             # Store the current board and score
             win_board = str(board.get_tiles())
-            win_score = browser.find_element_by_class_name("score-container").text
+            win_score = browser.find_element_by_class_name(
+                "score-container").text
             # Sometimes, an extra "+ <score>" is left in the HTML from when the JS
             # Adds points after a merge, like +4 or +8. I only need to extract the first
             # set of numbers, which is my real score
             win_score = re.search(r"\d+", win_score).group()
 
             # Press the "Keep Going" button that shows up when we reach the 2048 tile
-            continueGame = browser.find_element_by_class_name("keep-playing-button")
+            continueGame = browser.find_element_by_class_name(
+                "keep-playing-button")
             continueGame.click()  # Raises an exception if the button doesn't exist
 
             # Assuming we didn't fly into the 'except' yet, log the board's current state
@@ -74,7 +107,8 @@ def play(num_moves=3, num_trials=200):
         try:
             # Store the current board and score
             lose_board = str(board.get_tiles())
-            lose_score = browser.find_element_by_class_name("score-container").text
+            lose_score = browser.find_element_by_class_name(
+                "score-container").text
             # Sometimes, an extra "+ <score>" is left in the HTML from when the JS
             # Adds points after a merge, like +4 or +8. I only need to extract the first
             # set of numbers, which is my real score
@@ -89,36 +123,46 @@ def play(num_moves=3, num_trials=200):
             logging.info("\n" + lose_board)
             logging.info(f"SCORE: {lose_score}")
             losses += 1
-            did_win = False
             logging.info(f"Win rate: {round((100 * wins/losses), 2)}%")
 
             # Also, throw the results into the database
 
             # Connect to a database to store results from trials
-            conn = sqlite3.connect("2048_trials.db")
+            conn = sqlite3.connect("2048_AI_results.db")
             cursor = conn.cursor()
-            cursor.execute("""CREATE TABLE IF NOT EXISTS trial_results
+            cursor.execute(
+                """CREATE TABLE IF NOT EXISTS results
                             (
-                            trial_no INTEGER PRIMARY KEY,
+                            attempt_no INTEGER PRIMARY KEY,
                             num_moves SMALLINT,
                             num_trials SMALLINT,
                             highest_score INT,
                             did_win BOOL
                             )
-                            """)
-            cursor.execute("INSERT INTO trial_results VALUES(NULL, ?, ?, ?, ?)",
-                           (num_moves,
-                            num_trials,
-                            lose_score,
-                            int(did_win)
-                            ))
+                            """
+            )
+            cursor.execute(
+                "INSERT INTO results VALUES(NULL, ?, ?, ?, ?)",
+                (num_moves, num_trials, lose_score, int(did_win)),
+            )
             conn.commit()
+            last_trial = cursor.execute(
+                "SELECT MAX(attempt_no) FROM results").fetchone()[0]
             conn.close()
 
+            # Declare this run as finished and start another one
+            runs_done += 1
+            did_win = False
+
             # TODO: Take a screenshot of the "Game Over" board
+            # For now I guess a text version of the board will do
+            with open(f'GameOvers/{last_trial}.txt', 'w') as last_board:
+                last_board.write(lose_board + f'\nSCORE: {lose_score}')
         except:
             pass
+    logging.info("Finished session")
+    browser.close()
 
 
 if __name__ == "__main__":
-    play(2, 200)
+    play(args.num_moves, args.num_trials, args.num_runs)
