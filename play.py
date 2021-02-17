@@ -10,6 +10,7 @@ import logging
 import sqlite3
 import re
 import argparse
+import os
 
 parser = argparse.ArgumentParser(
     description="Run a 2048 AI to play 2048 while saving results."
@@ -156,6 +157,8 @@ def play(num_moves=3, num_trials=200, runs_left=0):
 
             # TODO: Take a screenshot of the "Game Over" board
             # For now I guess a text version of the board will do
+            if not os.path.exists('GameOvers'):
+                os.makedirs('GameOvers')
             with open(f'GameOvers/{last_trial}.txt', 'w') as last_board:
                 last_board.write(lose_board + f'\nSCORE: {lose_score}')
         except:
