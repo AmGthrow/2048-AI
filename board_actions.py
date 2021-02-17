@@ -99,7 +99,7 @@ class BoardDriver:
         self.html.send_keys(Keys.DOWN)
 
     def get_best_move(
-        self, board, num_moves=DEFAULT_NUM_MOVES, num_trials=DEFAULT_NUM_TRIALS
+        self, num_moves=DEFAULT_NUM_MOVES, num_trials=DEFAULT_NUM_TRIALS
     ):
         """Send the BoardDriver's current board configuration to the AI and get what
         the best move for the board would be    
@@ -117,5 +117,6 @@ class BoardDriver:
             "ai_left": self.move_left,
             "ai_right": self.move_right,
         }
+        board = self.get_tiles()
         move = AI.get_best_move(board, num_moves, num_trials)
         return function_names[move.__name__]
