@@ -8,10 +8,10 @@ def get_all(num_moves=None, num_trials=None):
     # ? That way I can set default values for num_moves and num_trials to be that 'anything'
     # ? and I wouldn't have this if-else
     if num_moves and num_trials:
-        cursor.execute("SELECT * FROM results WHERE num_moves = ? AND num_trials = ?",
+        cursor.execute("SELECT * FROM results WHERE num_moves = ? AND num_trials = ? ORDER BY highest_score DESC",
                        (num_moves, num_trials))
     else:
-        cursor.execute("SELECT * FROM results")
+        cursor.execute("SELECT * FROM results ORDER BY highest_score DESC")
     for attempt_no, num_moves, num_trials, highest_score, did_win in cursor.fetchall():
         print(
             f"""TRIAL #{attempt_no}
