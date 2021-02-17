@@ -28,10 +28,11 @@ def get_wins(num_moves=None, num_trials=None):
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
     if num_moves and num_trials:
-        cursor.execute("SELECT * FROM results WHERE num_moves = ? AND num_trials = ? AND did_win = 1",
+        cursor.execute("SELECT * FROM results WHERE num_moves = ? AND num_trials = ? AND did_win = 1 ORDER BY highest_score DESC",
                        (num_moves, num_trials))
     else:
-        cursor.execute("SELECT * FROM results")
+        cursor.execute(
+            "SELECT * FROM results WHERE did_win = 1 ORDER BY highest_score DESC")
     for attempt_no, num_moves, num_trials, highest_score, did_win in cursor.fetchall():
         print(
             f"""TRIAL #{attempt_no}
