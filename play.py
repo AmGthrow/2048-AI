@@ -46,6 +46,15 @@ logging.basicConfig(
 
 
 def play(num_moves=3, num_trials=200, runs_left=0):
+    """Opens a selenium webdriver and plays 2048, logging results to a database
+
+    Args:
+        num_moves (int, optional): The number of moves it looks ahead into the future for. Defaults to 3.
+        num_trials (int, optional): the number of trials for the AI to run. Defaults to 200.
+        runs_left (int, optional): The number of games of 2048 to play. Runs indefinitely when
+        set to 0 or less. Defaults to 0.
+    """
+
     # Track wins/losses to get win rate
     wins = 0
     losses = 0
