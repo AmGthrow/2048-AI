@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def get_all(num_moves=None, num_trials=None):
+def get_all(num_moves=None, num_trials=None, num_results=float('inf')):
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
     # ? Is there  a better way to do this? Something like num_moves = anything?
@@ -12,7 +12,11 @@ def get_all(num_moves=None, num_trials=None):
                        (num_moves, num_trials))
     else:
         cursor.execute("SELECT * FROM results ORDER BY highest_score DESC")
+    results_done = 0
     for attempt_no, num_moves, num_trials, highest_score, did_win in cursor.fetchall():
+        if results_done >= num_results:
+            break
+        results_done += 1
         print(
             f"""TRIAL #{attempt_no}
         num_moves  = {num_moves}
@@ -22,9 +26,10 @@ def get_all(num_moves=None, num_trials=None):
         """
         )
     conn.close()
+    return results_done
 
 
-def get_wins(num_moves=None, num_trials=None):
+def get_wins(num_moves=None, num_trials=None, num_results=float('inf')):
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
     if num_moves and num_trials:
@@ -33,7 +38,11 @@ def get_wins(num_moves=None, num_trials=None):
     else:
         cursor.execute(
             "SELECT * FROM results WHERE did_win = 1 ORDER BY highest_score DESC")
+    results_done = 0
     for attempt_no, num_moves, num_trials, highest_score, did_win in cursor.fetchall():
+        if results_done >= num_results:
+            break
+        results_done += 1
         print(
             f"""TRIAL #{attempt_no}
         num_moves  = {num_moves}
@@ -43,6 +52,7 @@ def get_wins(num_moves=None, num_trials=None):
         """
         )
     conn.close()
+    return results_done
 
 
 def erase_all():
@@ -77,4 +87,3 @@ def get_avg_score(num_moves=None, num_trials=None):
     avg_score = cursor.fetchone()[0]
     print(f"AVG SCORE: {avg_score}")
     conn.close()
-
