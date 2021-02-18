@@ -45,7 +45,7 @@ def get_all(num_moves=None, num_trials=None, num_results=float('inf'), will_prin
     return results
 
 
-def get_wins(num_moves=None, num_trials=None, num_results=float('inf')):
+def get_wins(num_moves=None, num_trials=None, num_results=float('inf'), will_print=True):
     """Prints out all the winning trials in the database that satisfy the
     given parameters
 
@@ -53,9 +53,11 @@ def get_wins(num_moves=None, num_trials=None, num_results=float('inf')):
         num_moves (int, optional): The value for num_moves which printed trials must match. Defaults to None.
         num_trials (int, optional): The value for num_trials which printed trials must match. Defaults to None.
         num_results (int, optional): The maximum number of results to print. Defaults to float('inf').
+        will_print(bool, optional): Whether or not to print the results into the terminal. Defaults to True
 
     Returns:
-        int: The number of trials which satisfy the parameters
+        list(int, int, int, int, int): List of tuples of all the valid results in the database following the format
+        (attempt_no, num_moves, num_trials, highest_score, did_win)
     """
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
@@ -66,20 +68,23 @@ def get_wins(num_moves=None, num_trials=None, num_results=float('inf')):
         cursor.execute(
             "SELECT * FROM results WHERE did_win = 1 ORDER BY highest_score DESC")
     results_done = 0
-    for attempt_no, num_moves, num_trials, highest_score, did_win in cursor.fetchall():
-        if results_done >= num_results:
-            break
-        results_done += 1
-        print(
-            f"""TRIAL #{attempt_no}
-        num_moves  = {num_moves}
-        num_trials = {num_trials}
-        HIGH SCORE = {highest_score}
-        WIN: {"yes" if did_win else "no"}
-        """
-        )
+    results = cursor.fetchall()
     conn.close()
-    return results_done
+    if num_results == float('inf'):
+        num_results = len(results)
+    results = results[:num_results]
+    if will_print:
+        for attempt_no, num_moves, num_trials, highest_score, did_win in results:
+            results_done += 1
+            print(
+                f"""TRIAL #{attempt_no}
+            num_moves  = {num_moves}
+            num_trials = {num_trials}
+            HIGH SCORE = {highest_score}
+            WIN: {"yes" if did_win else "no"}
+            """
+            )
+    return results
 
 
 def erase_all():
