@@ -25,6 +25,7 @@ def get_all(num_moves=None, num_trials=None, num_results=float('inf'), will_prin
         cursor.execute("SELECT * FROM results ORDER BY highest_score DESC")
     results_done = 0
     results = cursor.fetchall()
+    conn.close()
     if num_results == float('inf'):
         num_results = len(results)
     for attempt_no, num_moves, num_trials, highest_score, did_win in results[:num_results]:
