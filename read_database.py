@@ -104,6 +104,8 @@ def get_win_rate(num_moves=None, num_trials=None):
     Args:
         num_moves (int, optional): The value for num_moves which printed trials must match. Defaults to None.
         num_trials (int, optional): The value for num_trials which printed trials must match. Defaults to None.
+    Returns:
+        float: The win rate of all the valid trials
     """
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
@@ -124,6 +126,8 @@ def get_avg_score(num_moves=None, num_trials=None):
     Args:
         num_moves (int, optional): The value for num_moves which printed trials must match. Defaults to None.
         num_trials (int, optional): The value for num_trials which printed trials must match. Defaults to None.
+    Returns:
+        float: The average score for all the valid trials
     """
 
     conn = sqlite3.connect("2048_AI_results.db")
