@@ -33,7 +33,6 @@ def get_all(num_moves=None, num_trials=None, num_results=float('inf'), will_prin
     results = results[:num_results]
     if will_print:
         for attempt_no, num_moves, num_trials, highest_score, did_win in results:
-            results_done += 1
             print(
                 f"""TRIAL #{attempt_no}
             num_moves  = {num_moves}
@@ -67,7 +66,6 @@ def get_wins(num_moves=None, num_trials=None, num_results=float('inf'), will_pri
     else:
         cursor.execute(
             "SELECT * FROM results WHERE did_win = 1 ORDER BY highest_score DESC")
-    results_done = 0
     results = cursor.fetchall()
     conn.close()
     if num_results == float('inf'):
@@ -75,7 +73,6 @@ def get_wins(num_moves=None, num_trials=None, num_results=float('inf'), will_pri
     results = results[:num_results]
     if will_print:
         for attempt_no, num_moves, num_trials, highest_score, did_win in results:
-            results_done += 1
             print(
                 f"""TRIAL #{attempt_no}
             num_moves  = {num_moves}
