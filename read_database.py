@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def get_all(num_moves=None, num_trials=None, num_results=float('inf')):
+def get_all(num_moves=None, num_trials=None, num_results=float('inf'), will_print=True):
     """Prints out all the trials in the database that satisfy the
     given parameters
 
@@ -24,9 +24,10 @@ def get_all(num_moves=None, num_trials=None, num_results=float('inf')):
     else:
         cursor.execute("SELECT * FROM results ORDER BY highest_score DESC")
     results_done = 0
-    for attempt_no, num_moves, num_trials, highest_score, did_win in cursor.fetchall():
-        if results_done >= num_results:
-            break
+    results = cursor.fetchall()
+    if num_results == float('inf'):
+        num_results = len(results)
+    for attempt_no, num_moves, num_trials, highest_score, did_win in results[:num_results]:
         results_done += 1
         print(
             f"""TRIAL #{attempt_no}
@@ -37,7 +38,7 @@ def get_all(num_moves=None, num_trials=None, num_results=float('inf')):
         """
         )
     conn.close()
-    return results_done
+    return results
 
 
 def get_wins(num_moves=None, num_trials=None, num_results=float('inf')):
