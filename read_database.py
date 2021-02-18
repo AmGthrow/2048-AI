@@ -21,15 +21,17 @@ def get_all(num_moves=None, num_trials=None, num_results=float('inf'), will_prin
     # ? That way I can set default values for num_moves and num_trials to be that 'anything'
     # ? and I wouldn't have this if-else
     if num_moves and num_trials:
+        # TODO: is there a way to put "LIMIT <num_results>" where num_results can still be +inf?
         cursor.execute("SELECT * FROM results WHERE num_moves = ? AND num_trials = ? ORDER BY highest_score DESC",
                        (num_moves, num_trials))
     else:
         cursor.execute("SELECT * FROM results ORDER BY highest_score DESC")
-    results_done = 0
     results = cursor.fetchall()
     conn.close()
+    # Don't trim if num_results is +inf
     if num_results == float('inf'):
         num_results = len(results)
+    # Get only the first <num_results> resuts
     results = results[:num_results]
     if will_print:
         for attempt_no, num_moves, num_trials, highest_score, did_win in results:
@@ -68,9 +70,11 @@ def get_wins(num_moves=None, num_trials=None, num_results=float('inf'), will_pri
             "SELECT * FROM results WHERE did_win = 1 ORDER BY highest_score DESC")
     results = cursor.fetchall()
     conn.close()
+    # Don't trim if num_results is +inf
     if num_results == float('inf'):
         num_results = len(results)
     results = results[:num_results]
+    # Get only the first <num_results> resuts
     if will_print:
         for attempt_no, num_moves, num_trials, highest_score, did_win in results:
             print(
