@@ -112,9 +112,10 @@ def get_win_rate(num_moves=None, num_trials=None):
                        (num_moves, num_trials))
     else:
         cursor.execute("SELECT AVG(did_win) FROM results")
-    win_rate = cursor.fetchone()[0]
-    print(f"WIN RATE: {round(win_rate * 100, 2)}%")
+    win_rate = round(cursor.fetchone()[0] * 100, 2)
+    print(f"WIN RATE: {win_rate}%")
     conn.close()
+    return win_rate
 
 
 def get_avg_score(num_moves=None, num_trials=None):
@@ -132,6 +133,9 @@ def get_avg_score(num_moves=None, num_trials=None):
                        (num_moves, num_trials))
     else:
         cursor.execute("SELECT AVG(highest_score) FROM results")
-    avg_score = cursor.fetchone()[0]
+    avg_score = round(cursor.fetchone()[0], 2)
     print(f"AVG SCORE: {avg_score}")
     conn.close()
+    return avg_score
+
+
