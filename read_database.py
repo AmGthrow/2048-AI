@@ -28,17 +28,18 @@ def get_all(num_moves=None, num_trials=None, num_results=float('inf'), will_prin
     conn.close()
     if num_results == float('inf'):
         num_results = len(results)
-    for attempt_no, num_moves, num_trials, highest_score, did_win in results[:num_results]:
-        results_done += 1
-        print(
-            f"""TRIAL #{attempt_no}
-        num_moves  = {num_moves}
-        num_trials = {num_trials}
-        HIGH SCORE = {highest_score}
-        WIN: {"yes" if did_win else "no"}
-        """
-        )
-    conn.close()
+    results = results[:num_results]
+    if will_print:
+        for attempt_no, num_moves, num_trials, highest_score, did_win in results:
+            results_done += 1
+            print(
+                f"""TRIAL #{attempt_no}
+            num_moves  = {num_moves}
+            num_trials = {num_trials}
+            HIGH SCORE = {highest_score}
+            WIN: {"yes" if did_win else "no"}
+            """
+            )
     return results
 
 
