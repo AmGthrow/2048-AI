@@ -9,9 +9,11 @@ def get_all(num_moves=None, num_trials=None, num_results=float('inf'), will_prin
         num_moves (int, optional): The value for num_moves which printed trials must match. Defaults to None.
         num_trials (int, optional): The value for num_trials which printed trials must match. Defaults to None.
         num_results (int, optional): The maximum number of results to print. Defaults to float('inf').
+        will_print(bool, optional): Whether or not to print the results into the terminal. Defaults to True
 
     Returns:
-        int: The number of trials which satisfy the parameters
+        list(int, int, int, int, int): List of tuples of all the valid results in the database following the format
+        (attempt_no, num_moves, num_trials, highest_score, did_win)
     """
     conn = sqlite3.connect("2048_AI_results.db")
     cursor = conn.cursor()
