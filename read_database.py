@@ -141,5 +141,3 @@ def get_avg_score(num_moves=None, num_trials=None):
     print(f"AVG SCORE: {avg_score}")
     conn.close()
     return avg_score
-
-
