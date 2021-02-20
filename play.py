@@ -69,7 +69,7 @@ def play(num_moves=3, num_trials=200, runs_left=0):
     )
     # Takes the browser to play2048.co and starts a game
     browser = webdriver.Chrome()
-    browser.get("2048.html")
+    browser.get(os.path.abspath("2048.html"))
     newGame = browser.find_element_by_class_name("restart-button")
     newGame.click()
 
