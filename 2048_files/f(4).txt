@@ -1,0 +1,1 @@
+_gfp_s_({"_cookies_":[{"_value_":"ID=5d9b250461116a32-224b419113c60026:T=1613777563:RT=1613777563:S=ALNI_MYvYksOiL05K9KdfC9NUBRvQUWlYA","_expires_":1647473563,"_path_":"/","_domain_":"play2048.co"}]});
