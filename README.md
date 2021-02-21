@@ -16,14 +16,28 @@ Run `pip install -r requirements.txt` to install all the dependencies.
 Results from all the trials are stored into a sqlite database, which you can access easily using some helper functions included in `read_database.py`.
 
 Functions which can be used to access previous results easily are:
- - `read_database.get_all()`:  Retrieve all results
+ - `read_database.get_all()`:  Retrieve all results and returns a list of tuples of the format (attempt_no, num_moves, num_trials, high_score,  did_win)
  - `read_database.get_wins()`:  Same as `get_all()` but only retrieves winning results
  - `read_database.get_win_rate()`:  Get the win rate of all the results
  - `read_databse.get_avg_score()`:  Get the average score of all the trials
  - `read_database.erase_all()`:  Remove all results currently in the database
 
 
-For example, retrieving all results sorted by high score:
+For example, say the database currently looks like this.
+```
+TRIAL #1
+            num_moves  = 3
+            num_trials = 150
+            HIGH SCORE = 16108
+            WIN: no
+TRIAL #2
+            num_moves  = 4
+            num_trials = 100
+            HIGH SCORE = 32468
+            WIN: yes 
+```                   
+
+Running each of the functions above would look like this:
 
 ```
 >>> import read_database
@@ -39,4 +53,21 @@ TRIAL #1
             num_trials = 150
             HIGH SCORE = 16108
             WIN: no
+
+[(2, 4, 100, 32468, 1), (1, 3, 150, 16108, 0)]     
+>>> read_database.get_wins()
+
+TRIAL #2
+            num_moves  = 4
+            num_trials = 100
+            HIGH SCORE = 32468
+            WIN: yes
+
+[(2, 4, 100, 32468, 1), (1, 3, 150, 16108, 0)]
+
+>>>read_database.get_win_rate()
+WIN RATE: 50%
+
+>>>read_database.get_avg_score()
+AVG SCORE: 24,288
 ```
