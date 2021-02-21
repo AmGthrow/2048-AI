@@ -13,10 +13,17 @@ Run `pip install -r requirements.txt` to install all the dependencies.
     You should see an automated Chrome browser open 2048.html and play 2048 with no need for input.
 
 ### For viewing results from previous trials
-Results from all the trials are stored into a sqlite database, which you can access easily using some helper functions.
+Results from all the trials are stored into a sqlite database, which you can access easily using some helper functions included in `read_database.py`.
+
+Functions which can be used to access previous results easily are:
+ - `read_database.get_all()`:  Retrieve all results
+ - `read_database.get_wins()`:  Same as `get_all()` but only retrieves winning results
+ - `read_database.get_win_rate()`:  Get the win rate of all the results
+ - `read_databse.get_avg_score()`:  Get the average score of all the trials
+ - `read_database.erase_all()`:  Remove all results currently in the database
 
 
-For retrieving all results, sorted by high score:
+For example, retrieving all results sorted by high score:
 
 ```
 >>> import read_database
@@ -26,7 +33,7 @@ TRIAL #2
             num_trials = 100
             HIGH SCORE = 32468
             WIN: yes
-            
+
 TRIAL #1
             num_moves  = 3
             num_trials = 150
