@@ -12,7 +12,7 @@ import re
 import argparse
 import os
 
-_2048HTML = os.path.abspath("2048.html")
+_2048HTML = os.path.abspath("web/index.html")
 
 parser = argparse.ArgumentParser(
     description="Run a 2048 AI to play 2048 while saving results."
