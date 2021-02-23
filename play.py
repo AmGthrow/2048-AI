@@ -12,8 +12,6 @@ import re
 import argparse
 import os
 
-_2048HTML = os.path.abspath("web/index.html")
-
 parser = argparse.ArgumentParser(
     description="Run a 2048 AI to play 2048 while saving results."
 )
@@ -34,6 +32,12 @@ parser.add_argument(
     type=int,
     default=0,
     help="Number of games the AI will play. 0 means the AI will run until forcibly closed",
+)
+parser.add_argument(
+    "-of",
+    "--offline",
+    action="store_true",
+    help="Uses local copy of the 2048 when called. Otherwise, plays online",
 )
 
 args = parser.parse_args()
@@ -178,4 +182,8 @@ def play(num_moves=3, num_trials=200, runs_left=0):
 
 
 if __name__ == "__main__":
+    if args.offline:
+        _2048HTML = os.path.abspath("web/index.html")
+    else:
+        _2048HTML = "https://play2048.co/"
     play(args.num_moves, args.num_trials, args.num_runs)
