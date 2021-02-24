@@ -31,6 +31,10 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
     We repeat this process for all the valid moves we can make. By the end, we'll have assigned scores to all the moves we could make. In order to get the best move, we just need to find the move with the highest score.
 
 # Example
+Let's assume that the board is currently in the configuration below, and assume that `num_moves=2, num_trials=3`. The AI would select a best move like this.
+
+![Starting Board](guide/start.png)
+
 ## Selection
 
 The AI picks a move to investigate first. The actual order of the moves to investigate isn't that important, but let's assume it tries evaluating the "down" move first. It'll check the other moves later as well.
@@ -39,13 +43,17 @@ The AI picks a move to investigate first. The actual order of the moves to inves
 
 After swiping down, two 128 tiles are merged and so 256 was added to the score. 256 is then added to the score for "swipe down".
 
+![Swipe Down](guide/down.png)
+
 ## Simulation 
 
-With `num_moves=2` and `num_trials=3`, the AI performs the following 3 trials. Note that the moves are just selected at random.*
+With `num_moves=2` and `num_trials=3`, the AI performs the following 3 trials. Note that the moves are simply selected at random right now, there's no strategy in selecting which move to perform.
 
 1. Up -> Left. Score: 8
 2. Right -> Down. Score: 32
 3. Right -> Left. Score: 32
+
+<img src="guide/trials.png" height="500">
 
 We get the average of all the trials (24) and add it to the score from the first move (256). The score for "swipe down" is now 280.
 
@@ -63,7 +71,11 @@ We repeat the process for right, up, & left and we get the following scores.
 
 Since "right" has the highest score, we deem right to be the best move.
 
-Note that right is deemed a better move than down/up, even if it doesn't immediately combine the two 128 tiles. This is because even if we don't get 256 immediately after swiping right, we did get it in later moves simulating the trials. According to our results, we even got better results than down and up. This implies that even even if down would give us a larger immediate score than right (down instantly gets 256 while right doesn't), our simulations suggest that we'd still get more points by swiping right simply because right sets us up for better moves than down does.
+Note that right is deemed a better move than down/up, even if it doesn't immediately combine the two 128 tiles. 
+
+<img src="guide/right-vs-down.png" height="250">
+
+This is because even if we don't get 256 immediately after swiping right, we did get it in later moves simulating the trials. According to our results, we even got better results than down and up. This implies that even even if down would give us a larger immediate score than right (down instantly gets 256 while right doesn't), our simulations suggest that we'd still get more points by swiping right simply because right sets us up for better moves than down does.
 
 A higher value for `num_trials` would make this prediction test for more possible futures, while a higher value for `num_moves` would have the AI consider even farther into the future. `num_trials` is like expanding width while `num_moves` expands depth.
 
