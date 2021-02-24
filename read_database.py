@@ -1,3 +1,8 @@
+"""
+A script full of helper functions that let me easily
+inspect all the data from previous runs
+"""
+
 import sqlite3
 
 

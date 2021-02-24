@@ -1,3 +1,8 @@
+"""
+A unit testing script to make sure that my 2048 board in 
+board.py actually behaves like the real 2048 does
+"""
+
 import unittest
 from board import Board
 import numpy as np
@@ -196,25 +201,25 @@ class TestBoard(unittest.TestCase):
             [2,  4,  8, 16],
             [4,  8, 16, 32],
             [8, 16, 32, 64]],
-            dtype = int)
+            dtype=int)
         self.assertTrue(Board(start).is_valid())
 
         # Only down or right is valid
-        start=np.array([
+        start = np.array([
             [64, 32, 16,  8],
             [32, 16,  8,  4],
             [16,  8,  4,  2],
             [8,  4,  2,  0]],
-            dtype = int)
+            dtype=int)
         self.assertTrue(Board(start).is_valid())
 
         # No moves left
-        start=np.array([
+        start = np.array([
             [64, 32, 16,  8],
             [32, 16,  8,  4],
             [16,  8,  4,  2],
             [8,  4,  2,  32]],
-            dtype = int)
+            dtype=int)
         self.assertFalse(Board(start).is_valid())
 
 

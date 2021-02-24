@@ -1,3 +1,8 @@
+"""
+The actual AI that determines the best move to make
+given any configuration of a 2048 board
+"""
+
 import numpy as np
 from board import Board
 

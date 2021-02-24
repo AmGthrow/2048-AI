@@ -1,3 +1,9 @@
+"""
+Web scraping stuff that lets me clean the webpage data
+from online 2048 websites like https://play2048.co/ and easily
+interact with the board
+"""
+
 from selenium.webdriver.common.keys import Keys
 import numpy as np
 from bs4 import BeautifulSoup

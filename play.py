@@ -1,5 +1,6 @@
 """
-Instantiates a new WebDriver for selenium to control and sends keystrokes to play the game and reset when it ends
+An automated script that opens a selenium WebDriver to play 2048
+and execute the best moves
 """
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys

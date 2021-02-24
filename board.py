@@ -1,3 +1,10 @@
+"""
+My internal representation for a 2048 board,
+with moves, merging, and tile spawning. Basically 
+all of the 2048 goodness except in numpy arrays instead of 
+javascript.
+"""
+
 import numpy as np
 import random
 

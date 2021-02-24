@@ -1,3 +1,8 @@
+"""A CLI version of 2048 that you can play in the terminal.
+None of the game logic is in here though, that's in board.py
+"""
+
+
 from board import Board
 import keyboard
 
