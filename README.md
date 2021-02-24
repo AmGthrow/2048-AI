@@ -1,10 +1,10 @@
 # 2048-AI
+
 An AI that automatically plays 2048 on https://play2048.co/
 
-# Overview
 <img src="https://s4.gifyu.com/images/ezgif.com-gif-maker-104efd394fe0d1a21.gif" height="500">
 
-
+# Overview
 The AI uses a Monte Carlo search tree to determine the best move given any state of the AI. This can be broken down into 4 steps.
 
  - **Selection**
