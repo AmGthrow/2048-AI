@@ -26,7 +26,7 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
 
     `num_moves` is how many moves it performs per trial, and `num_trials` is how many trials it performs. We get the average score of all the trials and use it in determining how "good" a move is.
 
- - **Backpropogation**
+ - **Backpropagation**
 
     We repeat this process for all the valid moves we can make. By the end, we'll have assigned scores to all the moves we could make. In order to get the best move, we just need to find the move with the highest score.
 
@@ -57,7 +57,7 @@ With `num_moves=2` and `num_trials=3`, the AI performs the following 3 trials. N
 
 We get the average of all the trials (24) and add it to the score from the first move (256). The score for "swipe down" is now 280.
 
-## Backpropogation
+## Backpropagation
     
 We repeat the process for right, up, & left and we get the following scores.
 
