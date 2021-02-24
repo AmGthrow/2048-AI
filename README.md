@@ -12,6 +12,9 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
         *e.g. Up and down are invalid moves and don't actually change the state of the board, so the AI decides to try swiping left (it'll still swipe right later as well).*
  - **Expansion**
     - From the starting board, the AI tries to simulate performing the selected move and records how many points it got from it.
+
+        *e.g. After swiping left, two 128 tiles are merged and so 256 was added to the score. 256 is then added to the score for "swipe left".*
+
  - **Simulation**
  - **Backpropogation**
 ## Installation and Usage
