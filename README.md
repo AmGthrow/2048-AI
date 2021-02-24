@@ -35,6 +35,21 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
    *We get the average of all the trials (24) and add it to the score from the first move (256). The score for "swipe down" is now 280.*
 
  - **Backpropogation**
+
+    We repeat this process for all the valid moves we can make. By the end, we'll have assigned scores to all the moves we could make. In order to get the best move, we just need to find the move with the highest score.
+
+    *e.g. We repeat the process for right, up, & left and we get the following scores.*
+
+    - Down: 280
+    - Right: 292
+    - Up: 264
+    - Left: 288
+
+    *Since "right" has the highest score, we deem right to be the best move.* 
+
+    *Note that right is deemed a better move than down/up, even if it doesn't immediately combine the two 128 tiles. This is because even if we don't get 256 immediately after swiping right, we did get it in later moves simulating the trials. According to our results, we even got better results than down and up. This implies that even even if down would give us a larger immediate score than right (down instantly gets 256 while right doesn't), our simulations suggest that we'd still get more points by swiping right simply because right sets us up for better moves than down does.* 
+    
+    *A higher value for `num_trials` would make this prediction test for more possible futures, while a higher value for `num_moves` would have the AI consider even farther into the future. `num_trials` is like expanding width while `num_moves` expands depth.*
 ## Installation and Usage
 
 ### Setting up
