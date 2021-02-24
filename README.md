@@ -19,6 +19,21 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
     *e.g. After swiping down, two 128 tiles are merged and so 256 was added to the score. 256 is then added to the score for "swipe down".*
 
  - **Simulation**
+
+    This is the most computationally intensive part. After performing the selected move, the AI simulates a whole slew of **completely random** moves and gets the average score from all the simulations. This average score is added to the score from the first move we got from the _Expansion_ part.
+
+    The actual number of moves it performs is governed by two parameters, `num_moves` and `num_trials`.
+
+    `num_moves` is how many moves it performs per trial, and `num_trials` is how many trials it performs. We get the average score of all the trials and use it in determining how "good" a move is.
+
+    *e.g. with `num_moves=2` and `num_trials=3`, the AI performs the following 3 trials. Note that the moves are just selected at random.*
+    
+    1. Up -> Left. Score: 8
+    2. Right -> Down. Score: 32
+    3. Right -> Left. Score: 32
+
+   *We get the average of all the trials (24) and add it to the score from the first move (256). The score for "swipe down" is now 280.*
+
  - **Backpropogation**
 ## Installation and Usage
 
