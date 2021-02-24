@@ -156,3 +156,6 @@ WIN RATE: 50%
 >>>read_database.get_avg_score()
 AVG SCORE: 24,288
 ```
+
+# Acknowledgements
+ - [Gabriele Cirulli](https://github.com/gabrielecirulli/2048) - Creator of 2048 website I'm playing on (as well as the local version I've kept inside the /web folder)
