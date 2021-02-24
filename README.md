@@ -33,30 +33,30 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
 # Example
 ## Selection
 
-    The AI tries evaluating the "down" move first since it's valid. It'll check the other moves later as well.
+The AI tries evaluating the "down" move first since it's valid. It'll check the other moves later as well.
 
 ## Expansion
 
-    After swiping down, two 128 tiles are merged and so 256 was added to the score. 256 is then added to the score for "swipe down".
+After swiping down, two 128 tiles are merged and so 256 was added to the score. 256 is then added to the score for "swipe down".
 
 ## Simulation 
 
-    With `num_moves=2` and `num_trials=3`, the AI performs the following 3 trials. Note that the moves are just selected at random.*
+With `num_moves=2` and `num_trials=3`, the AI performs the following 3 trials. Note that the moves are just selected at random.*
 
-        1. Up -> Left. Score: 8
-        2. Right -> Down. Score: 32
-        3. Right -> Left. Score: 32
+1. Up -> Left. Score: 8
+2. Right -> Down. Score: 32
+3. Right -> Left. Score: 32
 
-    We get the average of all the trials (24) and add it to the score from the first move (256). The score for "swipe down" is now 280.
+We get the average of all the trials (24) and add it to the score from the first move (256). The score for "swipe down" is now 280.
 
 ## Backpropogation
     
-    We repeat the process for right, up, & left and we get the following scores.
+We repeat the process for right, up, & left and we get the following scores.
 
-        - Down: 280
-        - Right: 292
-        - Up: 264
-        - Left: 288
+- Down: 280
+- Right: 292
+- Up: 264
+- Left: 288
 
 
 
