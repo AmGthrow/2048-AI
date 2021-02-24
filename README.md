@@ -82,7 +82,9 @@ A higher value for `num_trials` would make this prediction test for more possibl
 # Installation and Usage
 
 ## Setting up
-Run `pip install -r requirements.txt` to install all the dependencies.
+1. Make sure you have [Python](https://wiki.python.org/moin/BeginnersGuide/Download) installed
+2. Type in `git clone https://github.com/potato874/2048-AI.git` to clone the repository into your local machine.
+3. Run `pip install -r requirements.txt` to install all the dependencies for all the Python scripts.
 
 ## For running the AI
 1. Open a terminal or command prompt inside the project's directory
