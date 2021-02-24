@@ -16,7 +16,7 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
 
     From the starting board, the AI tries to simulate performing the selected move and records how many points it got from it.
 
-    *e.g. After swiping left, two 128 tiles are merged and so 256 was added to the score. 256 is then added to the score for "swipe left".*
+    *e.g. After swiping down, two 128 tiles are merged and so 256 was added to the score. 256 is then added to the score for "swipe down".*
 
  - **Simulation**
  - **Backpropogation**
