@@ -73,7 +73,8 @@ def ai_trials(trial_board, num_moves, num_trials):
             moves_done += 1
         # Add the board's score after <num_moves> moves to trials_score
         trials_score += search_board.score
-    return trials_score
+        avg_score = trials_score / num_trials
+    return avg_score
 
 
 def ai_up(board):
