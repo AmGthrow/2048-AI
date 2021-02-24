@@ -1,7 +1,7 @@
 # 2048-AI
 An AI that automatically plays 2048 on https://play2048.co/
 
-## Overview
+# Overview
 <img src="https://s4.gifyu.com/images/ezgif.com-gif-maker-104efd394fe0d1a21.gif" height="500">
 
 
@@ -30,16 +30,16 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
 
     We repeat this process for all the valid moves we can make. By the end, we'll have assigned scores to all the moves we could make. In order to get the best move, we just need to find the move with the highest score.
 
-## Example
-### Selection
+# Example
+## Selection
 
     The AI tries evaluating the "down" move first since it's valid. It'll check the other moves later as well.
 
-### Expansion
+## Expansion
 
     After swiping down, two 128 tiles are merged and so 256 was added to the score. 256 is then added to the score for "swipe down".
 
-### Simulation 
+## Simulation 
 
     With `num_moves=2` and `num_trials=3`, the AI performs the following 3 trials. Note that the moves are just selected at random.*
 
@@ -49,7 +49,7 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
 
     We get the average of all the trials (24) and add it to the score from the first move (256). The score for "swipe down" is now 280.
 
-### Backpropogation
+## Backpropogation
     
     We repeat the process for right, up, & left and we get the following scores.
 
@@ -67,17 +67,17 @@ Note that right is deemed a better move than down/up, even if it doesn't immedia
 
 A higher value for `num_trials` would make this prediction test for more possible futures, while a higher value for `num_moves` would have the AI consider even farther into the future. `num_trials` is like expanding width while `num_moves` expands depth.
 
-## Installation and Usage
+# Installation and Usage
 
-### Setting up
+## Setting up
 Run `pip install -r requirements.txt` to install all the dependencies.
 
-### For running the AI
+## For running the AI
 1. Open a terminal or command prompt inside the project's directory
 2. run `play.py <num_moves> <num_trials> <num_runs>`
     You should see an automated Chrome browser open 2048.html and play 2048 with no need for input.
 
-### For viewing results from previous trials
+## For viewing results from previous trials
 Results from all the trials are stored into a sqlite database, which you can access easily using some helper functions included in `read_database.py`.
 
 Functions which can be used to access previous results easily are:
