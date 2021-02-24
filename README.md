@@ -10,7 +10,7 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
  - **Selection**
 
 
-    The AI is given a starting board from which its supposed to select a best move. There are only 4 possible moves at most in any board (down, right, up, left) and the AI selects whichever moves are still valid, skipping over moves that it can't actually make.
+    The AI is given a starting board from which its supposed to select a best move. There are only 4 possible moves at most in any board (down, right, up, left) and the AI selects whichever moves are still valid, skipping over invalid moves.
 
  - **Expansion**
 
@@ -33,7 +33,7 @@ The AI uses a Monte Carlo search tree to determine the best move given any state
 # Example
 ## Selection
 
-The AI tries evaluating the "down" move first since it's valid. It'll check the other moves later as well.
+The AI picks a move to investigate first. The actual order of the moves to investigate isn't that important, but let's assume it tries evaluating the "down" move first. It'll check the other moves later as well.
 
 ## Expansion
 
