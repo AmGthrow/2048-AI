@@ -87,9 +87,15 @@ A higher value for `num_trials` would make this prediction test for more possibl
 3. Run `pip install -r requirements.txt` to install all the dependencies for all the Python scripts.
 
 ## For running the AI
-1. Open a terminal or command prompt inside the project's directory
-2. run `play.py <num_moves> <num_trials> <num_runs>`
-    You should see an automated Chrome browser open 2048.html and play 2048 with no need for input.
+1. Open a terminal inside the project's directory
+2. Type  `play.py <num_moves> <num_trials> <num_runs>`
+    to open an automated Chrome browser which plays 2048. So far, the best parameters I've tried are `num_moves=4` and `num_trials=100`. If you make them too big, the program will **really** slow down but too low and the AI will make dumb moves.
+
+    - num_moves - Integer representing the number of moves the AI should look ahead. See [example](#example).
+    - num_trials - Integer representing the number of trials the AI should simulate. See [example](#example).
+    - num_runs - Integer representing the number of games the AI will play before terminating. 0 to run indefinitely.
+
+    **NOTE**: By default, the script will try to ping the a[actual 2048 website](https://play2048.co/). If you have a poor internet connection or just want to load the site faster, run `play.py` with the `--offline` flag to use a local version of 2048 that's already in the repository.
 
 ## For viewing results from previous trials
 Results from all the trials are stored into a sqlite database, which you can access easily using some helper functions included in `read_database.py`.
