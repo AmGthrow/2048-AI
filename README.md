@@ -7,9 +7,11 @@ An AI that automatically plays 2048 on https://play2048.co/
 The AI uses a Monte Carlo search tree to determine the best move given any state of the AI. This can be broken down into 4 steps.
 
  - **Selection**
-    - The AI is given a starting board from which its supposed to select a best move. There are only 4 possible moves at most in any board (up, down, left, right) and the AI selects whichever moves are still valid, skipping over moves that it can't actually make.
-    
-        *e.g. Up and down are invalid moves and don't actually change the state of the board, so the AI decides to try swiping left (it'll still swipe right later as well).*
+
+    The AI is given a starting board from which its supposed to select a best move. There are only 4 possible moves at most in any board (up, down, left, right) and the AI selects whichever moves are still valid, skipping over moves that it can't actually make.
+        
+    *e.g. Up and down are invalid moves and don't actually change the state of the board, so the AI decides to try swiping left (it'll still swipe right later as well).*
+
  - **Expansion**
     - From the starting board, the AI tries to simulate performing the selected move and records how many points it got from it.
 
