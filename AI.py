@@ -15,32 +15,32 @@ def get_best_move(original_board, num_moves, num_trials):
     """
     # Instantiate a Board
     ai_board = Board()
-    # List down all possible first moves we could make
-    fm_candidates = [ai_right, ai_down, ai_left, ai_up]
-    # Make an array to keep track of scores
-    fm_scores = np.zeros(len(fm_candidates), dtype=int)
-    for fm_index in range(len(fm_candidates)):
+    # Keep a dictionary of potential first moves as well as their "scores"
+    fm_candidates = {ai_right: 0,
+                     ai_down: 0,
+                     ai_left: 0,
+                     ai_up: 0}
+    for first_move in fm_candidates:
         # "Reset" the values on ai_board to match original_board
         ai_board.reset_board(original_board.copy())
-        # Select a "first move" to execute on ai_board
-        first_move = fm_candidates[fm_index]
 
         # Skip this first move if it's invalid
         if not first_move(ai_board):
-            fm_scores[fm_index] = -1
+            fm_candidates[first_move] = -1
             continue
 
-        # Do a bunch of trials using the "post-first move" board
+        # Do a bunch of trials using the "post-first move" board and record the avg score
         trials_score = ai_trials(ai_board.board.copy(), num_moves, num_trials)
-        # Add the score we get from the first move, weighted by the number of trials done
-        trials_score += ai_board.score * num_trials
-        # Put the trials_score into fm_scores
-        fm_scores[fm_index] = trials_score
+        # Add the score we get from the first move, so trials_score is now
+        # (score from first move) + (avg score from trials)
+        trials_score += ai_board.score
+        # Record trials_score as the score for the fm_candidate
+        fm_candidates[first_move] = trials_score
 
-    # get the index which got the highest score
-    max_score_index = np.argmax(fm_scores)
+    # get the move which got the highest score
+    best_move = max(fm_candidates, key=fm_candidates.get)
     # return the corresponding move
-    return fm_candidates[max_score_index]
+    return best_move
 
 
 def ai_trials(trial_board, num_moves, num_trials):
