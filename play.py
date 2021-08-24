@@ -4,6 +4,7 @@ and execute the best moves
 """
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from webdriver_manager.chrome import ChromeDriverManager
 
 import time
 from board_actions import BoardDriver
@@ -75,7 +76,7 @@ def play(num_moves=3, num_trials=200, runs_left=0):
         f"Beginning new session.\nnum_moves: {num_moves}\nnum_trials: {num_trials}\nnum_runs: {runs_left}"
     )
     # Takes the browser to play2048.co and starts a game
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome(ChromeDriverManager().install())
     browser.get(_2048HTML)
     newGame = browser.find_element_by_class_name("restart-button")
     newGame.click()
