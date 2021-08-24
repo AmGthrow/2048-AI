@@ -17,19 +17,19 @@ parser = argparse.ArgumentParser(
     description="Run a 2048 AI to play 2048 while saving results."
 )
 parser.add_argument(
-    "num_moves",
+    "--moves",
     type=int,
     default=3,
     help="Number of moves for the AI to look ahead into the future for",
 )
 parser.add_argument(
-    "num_trials",
+    "--trials",
     type=int,
     default=200,
     help="Number of trials that the AI runs for every move to calculate a best score",
 )
 parser.add_argument(
-    "num_runs",
+    "--runs",
     type=int,
     default=0,
     help="Number of games the AI will play. 0 means the AI will run until forcibly closed",
@@ -187,4 +187,4 @@ if __name__ == "__main__":
         _2048HTML = os.path.abspath("web/index.html")
     else:
         _2048HTML = "https://play2048.co/"
-    play(args.num_moves, args.num_trials, args.num_runs)
+    play(args.moves, args.trials, args.runs)
