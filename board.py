@@ -1,7 +1,7 @@
 """
 My internal representation for a 2048 board,
-with moves, merging, and tile spawning. Basically 
-all of the 2048 goodness except in numpy arrays instead of 
+with moves, merging, and tile spawning. Basically
+all of the 2048 goodness except in numpy arrays instead of
 javascript.
 """
 
@@ -26,7 +26,7 @@ class Board:
 
     def reset_board(self, new_board=None):
         """Sets everything on the board back to 0"""
-        if new_board.all() == None:
+        if new_board.all() is None:
             new_board = np.zeros((4, 4), dtype=int).copy()
         self.new_board(new_board)
 
@@ -65,6 +65,7 @@ class Board:
         """
         # Get an np.ndarray with the indices where self.board has 0s
         zeros = np.argwhere(self.board == 0)
+
         if len(zeros) == 0:
             return False
         # pick a random index and record the x,y values
@@ -140,8 +141,7 @@ class Board:
         self.shift_left()
         # if any of the tiles merged/moved, the move is valid
         # otherwise, the move didn't change anything and the move is invalid
-        is_valid = (old != self.board).any()
-        return is_valid
+        return (old != self.board).any()
 
     def shift_left(self):
         """Shifts every tile as far left as it could go without merging anything"""

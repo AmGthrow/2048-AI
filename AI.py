@@ -42,10 +42,8 @@ def get_best_move(original_board, num_moves, num_trials):
         # Record trials_score as the score for the fm_candidate
         fm_candidates[first_move] = trials_score
 
-    # get the move which got the highest score
-    best_move = max(fm_candidates, key=fm_candidates.get)
-    # return the corresponding move
-    return best_move
+    # return the move with the highest score
+    return max(fm_candidates, key=fm_candidates.get)
 
 
 def ai_trials(trial_board, num_moves, num_trials):
@@ -63,7 +61,7 @@ def ai_trials(trial_board, num_moves, num_trials):
     # Keep track of the total "score" of these trials
     trials_score = 0
     # Do a bunch of trials with random moves after the first move
-    for num_trial in range(num_trials):
+    for _ in range(num_trials):
         # Make a new board that starts off with the ai_board's first move
         search_board = Board(trial_board.copy())
         search_board.spawn_random_tile()
